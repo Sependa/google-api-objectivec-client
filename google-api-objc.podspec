@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = 'Apache License 2.0'
   s.author       = 'Google'
   
-  s.source       = { :git => "git@github.com:Taptera/google-api-objectivec-client.git", :tag => "#{s.version}"}
+  s.source       = { :git => "https://github.com/Taptera/google-api-objectivec-client.git", :tag => "#{s.version}"}
   s.platform     = :ios, '5.0'
   
   s.resources = 'Source/OAuth2/Touch/GTMOAuth2ViewTouch.xib'
