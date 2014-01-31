@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "google-api-objc"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "Google API SDK."
   s.homepage     = "http://code.google.com/p/google-api-objectivec-client/"
   s.license      = 'Apache License 2.0'

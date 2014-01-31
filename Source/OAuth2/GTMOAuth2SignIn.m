@@ -624,8 +624,12 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
         NSString *email = [profileDict objectForKey:@"email"];
         [auth setUserEmail:email];
 
-        NSNumber *verified = [profileDict objectForKey:@"verified_email"];
-        [auth setUserEmailIsVerified:[verified stringValue]];
+        id verified = [profileDict objectForKey:@"verified_email"];
+          if ([verified isKindOfClass:[NSString class]]) {
+              [auth setUserEmailIsVerified:[@"true" isEqualToString:verified] ? @"1" : @"0"];
+          } else {
+              [auth setUserEmailIsVerified:[verified stringValue]];
+          }
       }
     }
   }
