@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
                    'Source/OAuth2/*.{h,m}',
                    'Source/OAuth2/Touch/*.{h,m}',
                    'Source/GTLDefines.h'           
-  s.exclude_files = 'Source/HTTPFetcher/Tests', 'Source/Services/Calendar/Generated/GTLCalendar_Sources\.m/'                        
+  s.exclude_files = 'Source/HTTPFetcher/Tests', 'Source/Services/Calendar/Generated/GTLCalendar_Sources.m'
 
   s.frameworks   = 'Security', 'SystemConfiguration'
   s.requires_arc = false
