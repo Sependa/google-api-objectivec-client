@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,15 @@
 // Authorization scope
 NSString * const kGTLAuthScopeBooks = @"https://www.googleapis.com/auth/books";
 
+// AcquireMethod
+NSString * const kGTLBooksAcquireMethodPreordered       = @"PREORDERED";
+NSString * const kGTLBooksAcquireMethodPreviouslyRented = @"PREVIOUSLY_RENTED";
+NSString * const kGTLBooksAcquireMethodPublicDomain     = @"PUBLIC_DOMAIN";
+NSString * const kGTLBooksAcquireMethodPurchased        = @"PURCHASED";
+NSString * const kGTLBooksAcquireMethodRented           = @"RENTED";
+NSString * const kGTLBooksAcquireMethodSample           = @"SAMPLE";
+NSString * const kGTLBooksAcquireMethodUploaded         = @"UPLOADED";
+
 // Action
 NSString * const kGTLBooksActionBookmark = @"bookmark";
 NSString * const kGTLBooksActionChapter  = @"chapter";
@@ -46,6 +55,9 @@ NSString * const kGTLBooksAssociationEndOfVolume = @"end-of-volume";
 // Download
 NSString * const kGTLBooksDownloadEpub = @"epub";
 
+// Features
+NSString * const kGTLBooksFeaturesRentals = @"RENTALS";
+
 // Filter
 NSString * const kGTLBooksFilterEbooks     = @"ebooks";
 NSString * const kGTLBooksFilterFreeEbooks = @"free-ebooks";
@@ -57,6 +69,11 @@ NSString * const kGTLBooksFilterPartial    = @"partial";
 NSString * const kGTLBooksLibraryRestrictMyLibrary  = @"my-library";
 NSString * const kGTLBooksLibraryRestrictNoRestrict = @"no-restrict";
 
+// LicenseTypes
+NSString * const kGTLBooksLicenseTypesBoth       = @"BOTH";
+NSString * const kGTLBooksLicenseTypesConcurrent = @"CONCURRENT";
+NSString * const kGTLBooksLicenseTypesDownload   = @"DOWNLOAD";
+
 // OrderBy
 NSString * const kGTLBooksOrderByNewest    = @"newest";
 NSString * const kGTLBooksOrderByRelevance = @"relevance";
@@ -66,6 +83,15 @@ NSString * const kGTLBooksPrintTypeAll       = @"all";
 NSString * const kGTLBooksPrintTypeBooks     = @"books";
 NSString * const kGTLBooksPrintTypeMagazines = @"magazines";
 
+// ProcessingState
+NSString * const kGTLBooksProcessingStateCompletedFailed  = @"COMPLETED_FAILED";
+NSString * const kGTLBooksProcessingStateCompletedSuccess = @"COMPLETED_SUCCESS";
+NSString * const kGTLBooksProcessingStateRunning          = @"RUNNING";
+
 // Projection
 NSString * const kGTLBooksProjectionFull = @"full";
 NSString * const kGTLBooksProjectionLite = @"lite";
+
+// Rating
+NSString * const kGTLBooksRatingHaveIt        = @"HAVE_IT";
+NSString * const kGTLBooksRatingNotInterested = @"NOT_INTERESTED";

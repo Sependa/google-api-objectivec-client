@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,10 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsMcfData (0 custom class methods, 13 custom properties)
+//   GTLAnalyticsMcfData (0 custom class methods, 15 custom properties)
 //   GTLAnalyticsMcfDataColumnHeadersItem (0 custom class methods, 3 custom properties)
 //   GTLAnalyticsMcfDataProfileInfo (0 custom class methods, 6 custom properties)
-//   GTLAnalyticsMcfDataQuery (0 custom class methods, 10 custom properties)
+//   GTLAnalyticsMcfDataQuery (0 custom class methods, 11 custom properties)
 //   GTLAnalyticsMcfDataRowsItem (0 custom class methods, 2 custom properties)
 //   GTLAnalyticsMcfDataTotalsForAllResults (0 custom class methods, 0 custom properties)
 //   GTLAnalyticsMcfDataRowsItemConversionPathValueItem (0 custom class methods, 2 custom properties)
@@ -52,7 +52,7 @@
 //   GTLAnalyticsMcfData
 //
 
-// Multi-Channel Funnels data for a given profile.
+// Multi-Channel Funnels data for a given view (profile).
 
 @interface GTLAnalyticsMcfData : GTLObject
 
@@ -81,7 +81,8 @@
 // Link to previous page for this Analytics data query.
 @property (copy) NSString *previousLink;
 
-// Information for the profile, for which the Analytics data was requested.
+// Information for the view (profile), for which the Analytics data was
+// requested.
 @property (retain) GTLAnalyticsMcfDataProfileInfo *profileInfo;
 
 // Analytics data request query parameters.
@@ -91,6 +92,12 @@
 // followed by the metric values. The order of dimensions and metrics is same as
 // specified in the request.
 @property (retain) NSArray *rows;  // of NSArray of GTLAnalyticsMcfDataRowsItem
+
+// The number of samples used to calculate the result.
+@property (retain) NSNumber *sampleSize;  // longLongValue
+
+// Total size of the sample space from which the samples were selected.
+@property (retain) NSNumber *sampleSpace;  // longLongValue
 
 // Link to this page.
 @property (copy) NSString *selfLink;
@@ -134,22 +141,22 @@
 
 @interface GTLAnalyticsMcfDataProfileInfo : GTLObject
 
-// Account ID to which this profile belongs.
+// Account ID to which this view (profile) belongs.
 @property (copy) NSString *accountId;
 
-// Internal ID for the web property to which this profile belongs.
+// Internal ID for the web property to which this view (profile) belongs.
 @property (copy) NSString *internalWebPropertyId;
 
-// Profile ID.
+// View (Profile) ID.
 @property (copy) NSString *profileId;
 
-// Profile name.
+// View (Profile) name.
 @property (copy) NSString *profileName;
 
-// Table ID for profile.
+// Table ID for view (profile).
 @property (copy) NSString *tableId;
 
-// Web Property ID to which this profile belongs.
+// Web Property ID to which this view (profile) belongs.
 @property (copy) NSString *webPropertyId;
 
 @end
@@ -179,6 +186,9 @@
 
 // List of analytics metrics.
 @property (retain) NSArray *metrics;  // of NSString
+
+// Desired sampling level
+@property (copy) NSString *samplingLevel;
 
 // Analytics advanced segment.
 @property (copy) NSString *segment;

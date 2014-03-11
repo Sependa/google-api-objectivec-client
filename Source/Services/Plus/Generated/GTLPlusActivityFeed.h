@@ -71,7 +71,8 @@
 // Link to this activity resource.
 @property (copy) NSString *selfLink;
 
-// The title of this collection of activities.
+// The title of this collection of activities, which is a truncated portion of
+// the content.
 @property (copy) NSString *title;
 
 // The time at which this collection of activities was last updated. Formatted

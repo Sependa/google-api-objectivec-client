@@ -32,12 +32,14 @@
 //
 // We locally declare methods of GTMReadMonitorInputStream so we
 // do not need to import the header, as some projects may not have it available
+#ifndef GTM_NSSTREAM_DELEGATE
 @interface GTMReadMonitorInputStream : NSInputStream
 + (id)inputStreamWithStream:(NSInputStream *)input;
 @property (assign) id readDelegate;
 @property (assign) SEL readSelector;
 @property (retain) NSArray *runLoopModes;
 @end
+#endif
 
 // If GTMNSJSONSerialization is available, it is used for formatting JSON
 #if (TARGET_OS_MAC && !TARGET_OS_IPHONE && (MAC_OS_X_VERSION_MAX_ALLOWED < 1070)) || \
@@ -165,7 +167,7 @@ static NSString* gLoggingProcessName = nil;
     [loggingProcessName replaceOccurrencesOfString:@" "
                                         withString:@"_"
                                            options:0
-                                             range:NSMakeRange(0, [gLoggingProcessName length])];
+                                             range:NSMakeRange(0, [loggingProcessName length])];
     gLoggingProcessName = loggingProcessName;
   }
   return gLoggingProcessName;
@@ -189,6 +191,23 @@ static NSString* gLoggingProcessName = nil;
     gLoggingDateStamp = [[formatter stringFromDate:[NSDate date]] retain] ;
   }
   return gLoggingDateStamp;
+}
+
++ (NSString *)processNameLogPrefix {
+  static NSString *prefix = nil;
+  if (!prefix) {
+    NSString *processName = [[self class] loggingProcessName];
+    prefix = [[NSString alloc] initWithFormat:@"%@_log_", processName];
+  }
+  return prefix;
+}
+
++ (NSString *)symlinkNameSuffix {
+  return @"_log_newest.html";
+}
+
++ (NSString *)htmlFileName {
+  return @"aperçu_http_log.html";
 }
 
 // formattedStringFromData returns a prettyprinted string for XML or JSON input,
@@ -324,7 +343,7 @@ static NSString* gLoggingProcessName = nil;
   @synchronized(self) {
     if (flag != shouldDeferResponseBodyLogging_) {
       shouldDeferResponseBodyLogging_ = flag;
-      if (!flag) {
+      if (!flag && !hasLoggedError_) {
         [self performSelectorOnMainThread:@selector(logFetchWithError:)
                                withObject:nil
                             waitUntilDone:NO];
@@ -444,11 +463,12 @@ static NSString* gLoggingProcessName = nil;
   NSString *parentDir = [[self class] loggingDirectory];
   NSString *processName = [[self class] loggingProcessName];
   NSString *dateStamp = [[self class] loggingDateStamp];
+  NSString *logNamePrefix = [[self class] processNameLogPrefix];
 
   // make a directory for this run's logs, like
   //   SyncProto_logs_10-16_01-56-58PM
-  NSString *dirName = [NSString stringWithFormat:@"%@_log_%@",
-                       processName, dateStamp];
+  NSString *dirName = [NSString stringWithFormat:@"%@%@",
+                       logNamePrefix, dateStamp];
   NSString *logDirectory = [parentDir stringByAppendingPathComponent:dirName];
 
   if (gIsLoggingToFile) {
@@ -550,7 +570,7 @@ static NSString* gLoggingProcessName = nil;
   }
 
   // we'll have one main html file per run of the app
-  NSString *htmlName = @"aperçu_http_log.html";
+  NSString *htmlName = [[self class] htmlFileName];
   NSString *htmlPath =[logDirectory stringByAppendingPathComponent:htmlName];
 
   // if the html file exists (from logging previous fetches) we don't need
@@ -588,6 +608,16 @@ static NSString* gLoggingProcessName = nil;
   // write the request URL
   NSString *requestMethod = [request HTTPMethod];
   NSURL *requestURL = [request URL];
+
+  NSURL *redirectedFromHost = [[[redirectedFromURL_ host] copy] autorelease];
+  // Save the request URL for next time in case this redirects.
+  [redirectedFromURL_ release];
+  redirectedFromURL_ = [requestURL copy];
+  if (redirectedFromHost) {
+    [outputHTML appendFormat:@"<FONT COLOR='#990066'><i>redirected from %@</i></FONT><br>",
+     redirectedFromHost];
+  }
+
   [outputHTML appendFormat:@"<b>request:</b> %@ <code>%@</code><br>\n",
    requestMethod, requestURL];
 
@@ -776,6 +806,9 @@ static NSString* gLoggingProcessName = nil;
     [copyable appendFormat:@"%@\n\n", comment];
   }
   [copyable appendFormat:@"%@\n", [NSDate date]];
+  if (redirectedFromHost) {
+    [copyable appendFormat:@"Redirected from %@\n", redirectedFromHost];
+  }
   [copyable appendFormat:@"Request: %@ %@\n", requestMethod, requestURL];
   if ([requestHeaders count] > 0) {
     [copyable appendFormat:@"Request headers:\n%@\n",
@@ -867,8 +900,8 @@ static NSString* gLoggingProcessName = nil;
     [stream close];
 
     // Make a symlink to the latest html
-    NSString *symlinkName = [NSString stringWithFormat:@"%@_log_newest.html",
-                             processName];
+    NSString *const symlinkNameSuffix = [[self class] symlinkNameSuffix];
+    NSString *symlinkName = [processName stringByAppendingString:symlinkNameSuffix];
     NSString *symlinkPath = [parentDir stringByAppendingPathComponent:symlinkName];
 
     [[self class] removeItemAtPath:symlinkPath];

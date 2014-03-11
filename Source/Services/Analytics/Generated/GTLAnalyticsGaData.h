@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,15 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsGaData (0 custom class methods, 13 custom properties)
+//   GTLAnalyticsGaData (0 custom class methods, 16 custom properties)
 //   GTLAnalyticsGaDataColumnHeadersItem (0 custom class methods, 3 custom properties)
+//   GTLAnalyticsGaDataDataTable (0 custom class methods, 2 custom properties)
 //   GTLAnalyticsGaDataProfileInfo (0 custom class methods, 6 custom properties)
-//   GTLAnalyticsGaDataQuery (0 custom class methods, 10 custom properties)
+//   GTLAnalyticsGaDataQuery (0 custom class methods, 11 custom properties)
 //   GTLAnalyticsGaDataTotalsForAllResults (0 custom class methods, 0 custom properties)
+//   GTLAnalyticsGaDataDataTableColsItem (0 custom class methods, 3 custom properties)
+//   GTLAnalyticsGaDataDataTableRowsItem (0 custom class methods, 1 custom properties)
+//   GTLAnalyticsGaDataDataTableRowsItemCItem (0 custom class methods, 1 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -39,6 +43,10 @@
 #endif
 
 @class GTLAnalyticsGaDataColumnHeadersItem;
+@class GTLAnalyticsGaDataDataTable;
+@class GTLAnalyticsGaDataDataTableColsItem;
+@class GTLAnalyticsGaDataDataTableRowsItem;
+@class GTLAnalyticsGaDataDataTableRowsItemCItem;
 @class GTLAnalyticsGaDataProfileInfo;
 @class GTLAnalyticsGaDataQuery;
 @class GTLAnalyticsGaDataTotalsForAllResults;
@@ -48,7 +56,7 @@
 //   GTLAnalyticsGaData
 //
 
-// Analytics data for a given profile.
+// Analytics data for a given view (profile).
 
 @interface GTLAnalyticsGaData : GTLObject
 
@@ -58,6 +66,8 @@
 
 // Determines if Analytics data contains samples.
 @property (retain) NSNumber *containsSampledData;  // boolValue
+
+@property (retain) GTLAnalyticsGaDataDataTable *dataTable;
 
 // Unique ID for this data response.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
@@ -77,7 +87,8 @@
 // Link to previous page for this Analytics data query.
 @property (copy) NSString *previousLink;
 
-// Information for the profile, for which the Analytics data was requested.
+// Information for the view (profile), for which the Analytics data was
+// requested.
 @property (retain) GTLAnalyticsGaDataProfileInfo *profileInfo;
 
 // Analytics data request query parameters.
@@ -87,6 +98,12 @@
 // followed by the metric values. The order of dimensions and metrics is same as
 // specified in the request.
 @property (retain) NSArray *rows;  // of NSArray of NSString
+
+// The number of samples used to calculate the result.
+@property (retain) NSNumber *sampleSize;  // longLongValue
+
+// Total size of the sample space from which the samples were selected.
+@property (retain) NSNumber *sampleSpace;  // longLongValue
 
 // Link to this page.
 @property (copy) NSString *selfLink;
@@ -126,27 +143,38 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLAnalyticsGaDataDataTable
+//
+
+@interface GTLAnalyticsGaDataDataTable : GTLObject
+@property (retain) NSArray *cols;  // of GTLAnalyticsGaDataDataTableColsItem
+@property (retain) NSArray *rows;  // of GTLAnalyticsGaDataDataTableRowsItem
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLAnalyticsGaDataProfileInfo
 //
 
 @interface GTLAnalyticsGaDataProfileInfo : GTLObject
 
-// Account ID to which this profile belongs.
+// Account ID to which this view (profile) belongs.
 @property (copy) NSString *accountId;
 
-// Internal ID for the web property to which this profile belongs.
+// Internal ID for the web property to which this view (profile) belongs.
 @property (copy) NSString *internalWebPropertyId;
 
-// Profile ID.
+// View (Profile) ID.
 @property (copy) NSString *profileId;
 
-// Profile name.
+// View (Profile) name.
 @property (copy) NSString *profileName;
 
-// Table ID for profile.
+// Table ID for view (profile).
 @property (copy) NSString *tableId;
 
-// Web Property ID to which this profile belongs.
+// Web Property ID to which this view (profile) belongs.
 @property (copy) NSString *webPropertyId;
 
 @end
@@ -177,6 +205,9 @@
 // List of analytics metrics.
 @property (retain) NSArray *metrics;  // of NSString
 
+// Desired sampling level
+@property (copy) NSString *samplingLevel;
+
 // Analytics advanced segment.
 @property (copy) NSString *segment;
 
@@ -202,4 +233,39 @@
 // -additionalJSONKeys and -additionalPropertyForName: to get the list of
 // properties and then fetch them; or -additionalProperties to fetch them all at
 // once.
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTableColsItem
+//
+
+@interface GTLAnalyticsGaDataDataTableColsItem : GTLObject
+
+// identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
+@property (copy) NSString *identifier;
+
+@property (copy) NSString *label;
+@property (copy) NSString *type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTableRowsItem
+//
+
+@interface GTLAnalyticsGaDataDataTableRowsItem : GTLObject
+@property (retain) NSArray *c;  // of GTLAnalyticsGaDataDataTableRowsItemCItem
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsGaDataDataTableRowsItemCItem
+//
+
+@interface GTLAnalyticsGaDataDataTableRowsItemCItem : GTLObject
+@property (copy) NSString *v;
 @end

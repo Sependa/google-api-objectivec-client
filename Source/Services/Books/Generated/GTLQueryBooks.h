@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/books/docs/v1/getting_started
 // Classes:
-//   GTLQueryBooks (30 custom class methods, 46 custom properties)
+//   GTLQueryBooks (37 custom class methods, 58 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLQuery.h"
@@ -35,6 +35,7 @@
 #endif
 
 @class GTLBooksAnnotation;
+@class GTLBooksCloudloadingResource;
 
 @interface GTLQueryBooks : GTLQuery
 
@@ -48,7 +49,9 @@
 //
 // Method-specific parameters; see the comments below for more information.
 //
+@property (retain) NSArray *acquireMethod;  // of NSString
 @property (copy) NSString *action;
+@property (assign) BOOL allowWebDefinitions;
 // "annotationDataId" has different types for some query methods; see the
 // documentation for the right type for each query method.
 @property (retain) id annotationDataId;
@@ -59,15 +62,21 @@
 @property (copy) NSString *cpksver;
 @property (copy) NSString *deviceCookie;
 @property (copy) NSString *download;
+@property (copy) NSString *driveDocumentId;
 @property (copy) NSString *endOffset;
 @property (copy) NSString *endPosition;
+@property (retain) NSArray *features;  // of NSString
 @property (copy) NSString *filter;
 @property (assign) NSInteger h;
 @property (copy) NSString *langRestrict;
 @property (copy) NSString *layerId;
+@property (retain) NSArray *layerIds;  // of NSString
 @property (copy) NSString *libraryRestrict;
+@property (copy) NSString *licenseTypes;
 @property (copy) NSString *locale;
 @property (assign) NSUInteger maxResults;
+@property (copy) NSString *mimeType;
+@property (copy) NSString *name;
 @property (copy) NSString *nonce;
 @property (copy) NSString *orderBy;
 @property (retain) NSArray *pageIds;  // of NSString
@@ -75,11 +84,14 @@
 @property (copy) NSString *partner;
 @property (copy) NSString *position;
 @property (copy) NSString *printType;
+@property (retain) NSArray *processingState;  // of NSString
 @property (copy) NSString *projection;
 @property (copy) NSString *q;
+@property (copy) NSString *rating;
 @property (assign) NSInteger scale;
 @property (copy) NSString *shelf;
 @property (assign) BOOL showDeleted;
+@property (assign) BOOL showOnlySummaryInResponse;
 @property (assign) BOOL showPreorders;
 @property (copy) NSString *source;
 @property (assign) NSUInteger startIndex;
@@ -89,9 +101,12 @@
 @property (copy) NSString *timestamp;
 @property (copy) NSString *updatedMax;
 @property (copy) NSString *updatedMin;
+@property (copy) NSString *uploadClientToken;
 @property (copy) NSString *userId;
 @property (copy) NSString *volumeAnnotationsVersion;
-@property (copy) NSString *volumeId;
+// "volumeId" has different types for some query methods; see the documentation
+// for the right type for each query method.
+@property (retain) id volumeId;
 @property (retain) NSArray *volumeIds;  // of NSString
 @property (assign) NSInteger volumePosition;
 @property (assign) NSInteger w;
@@ -145,6 +160,40 @@
                                          shelf:(NSString *)shelf;
 
 #pragma mark -
+#pragma mark "cloudloading" methods
+// These create a GTLQueryBooks object.
+
+// Method: books.cloudloading.addBook
+
+//  Optional:
+//   driveDocumentId: A drive document id. The upload_client_token must not be
+//     set.
+//   mimeType: The document MIME type. It can be set only if the
+//     drive_document_id is set.
+//   name: The document name. It can be set only if the drive_document_id is
+//     set.
+//   uploadClientToken: NSString
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksCloudloadingResource.
++ (id)queryForCloudloadingAddBook;
+
+// Method: books.cloudloading.deleteBook
+// Remove the book and its contents
+//  Required:
+//   volumeId: The id of the book to be removed.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
++ (id)queryForCloudloadingDeleteBookWithVolumeId:(NSString *)volumeId;
+
+// Method: books.cloudloading.updateBook
+
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksCloudloadingResource.
++ (id)queryForCloudloadingUpdateBookWithObject:(GTLBooksCloudloadingResource *)object;
+
+#pragma mark -
 #pragma mark "layers.annotationData" methods
 // These create a GTLQueryBooks object.
 
@@ -157,6 +206,8 @@
 //   contentVersion: The content version for the volume you are trying to
 //     retrieve.
 //  Optional:
+//   allowWebDefinitions: For the dictionary layer. Whether or not to allow web
+//     definitions.
 //   h: The requested pixel height for any images. If height is provided width
 //     must also be provided.
 //   locale: The locale information for the data. ISO-639-1 language and
@@ -314,6 +365,11 @@
 //   nonce: The client nonce value.
 //   cpksver: The device/version ID from which to request the restrictions.
 //  Optional:
+//   licenseTypes: The type of access license to request. If not specified, the
+//     default is BOTH.
+//      kGTLBooksLicenseTypesBoth: Both concurrent and download licenses.
+//      kGTLBooksLicenseTypesConcurrent: Concurrent access license.
+//      kGTLBooksLicenseTypesDownload: Offline download access license.
 //   locale: ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
@@ -331,6 +387,8 @@
 //   nonce: The client nonce value.
 //   cpksver: The device/version ID from which to release the restriction.
 //  Optional:
+//   features: List of features supported by the client, i.e., 'RENTALS'
+//      kGTLBooksFeaturesRentals: Client supports rentals.
 //   locale: ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
 //   showPreorders: Set to true to show pre-ordered books. Defaults to false.
 //   volumeIds: The volume(s) to request download restrictions for.
@@ -369,6 +427,8 @@
 // Method: books.mylibrary.annotations.insert
 // Inserts a new annotation.
 //  Optional:
+//   showOnlySummaryInResponse: Requests that only the summary of the specified
+//     layer be provided in the response.
 //   source: String to identify the originator of this request.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
@@ -380,6 +440,7 @@
 //  Optional:
 //   contentVersion: The content version for the requested volume.
 //   layerId: The layer ID to limit annotation by.
+//   layerIds: The layer ID(s) to limit annotation by.
 //   maxResults: Maximum number of results to return (0..40)
 //   pageIds: The page ID(s) for the volume that is being queried.
 //   pageToken: The value of the nextToken from the previous page.
@@ -391,10 +452,22 @@
 //   updatedMin: RFC 3339 timestamp to restrict to items updated since this
 //     timestamp (inclusive).
 //   volumeId: The volume to restrict annotations to.
+//     Note: For this method, "volumeId" should be of type NSString.
 //  Authorization scope(s):
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksAnnotations.
 + (id)queryForMylibraryAnnotationsList;
+
+// Method: books.mylibrary.annotations.summary
+// Gets the summary of specified layers.
+//  Required:
+//   layerIds: Array of layer IDs to get the summary for.
+//   volumeId: Volume id to get the summary for.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksAnnotationsSummary.
++ (id)queryForMylibraryAnnotationsSummaryWithLayerIds:(NSArray *)layerIds
+                                             volumeId:(NSString *)volumeId;
 
 // Method: books.mylibrary.annotations.update
 // Updates an existing annotation.
@@ -635,6 +708,40 @@
 + (id)queryForVolumesListWithQ:(NSString *)q;
 
 #pragma mark -
+#pragma mark "volumes.mybooks" methods
+// These create a GTLQueryBooks object.
+
+// Method: books.volumes.mybooks.list
+// Return a list of books in My Library.
+//  Optional:
+//   acquireMethod: How the book was aquired
+//      kGTLBooksAcquireMethodPreordered: Preordered books (not yet available)
+//      kGTLBooksAcquireMethodPreviouslyRented: User-rented books past their
+//        expiration time
+//      kGTLBooksAcquireMethodPublicDomain: Public domain books
+//      kGTLBooksAcquireMethodPurchased: Purchased books
+//      kGTLBooksAcquireMethodRented: User-rented books
+//      kGTLBooksAcquireMethodSample: Sample books
+//      kGTLBooksAcquireMethodUploaded: User uploaded books
+//   locale: ISO-639-1 language and ISO-3166-1 country code. Ex:'en_US'. Used
+//     for generating recommendations.
+//   maxResults: Maximum number of results to return. (0..100)
+//   processingState: The processing state of the user uploaded volumes to be
+//     returned. Applicable only if the UPLOADED is specified in the
+//     acquireMethod.
+//      kGTLBooksProcessingStateCompletedFailed: The volume processing hase
+//        failed.
+//      kGTLBooksProcessingStateCompletedSuccess: The volume processing was
+//        completed.
+//      kGTLBooksProcessingStateRunning: The volume processing is not completed.
+//   source: String to identify the originator of this request.
+//   startIndex: Index of the first result to return (starts at 0)
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksVolumes.
++ (id)queryForVolumesMybooksList;
+
+#pragma mark -
 #pragma mark "volumes.recommended" methods
 // These create a GTLQueryBooks object.
 
@@ -648,5 +755,50 @@
 //   kGTLAuthScopeBooks
 // Fetches a GTLBooksVolumes.
 + (id)queryForVolumesRecommendedList;
+
+// Method: books.volumes.recommended.rate
+// Rate a recommended book for the current user.
+//  Required:
+//   rating: Rating to be given to the volume.
+//      kGTLBooksRatingHaveIt: Rating indicating a dismissal due to ownership.
+//      kGTLBooksRatingNotInterested: Rating indicating a negative dismissal of
+//        a volume.
+//   volumeId: ID of the source volume.
+//  Optional:
+//   locale: ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used
+//     for generating recommendations.
+//   source: String to identify the originator of this request.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksVolumesRecommendedRateResponse.
++ (id)queryForVolumesRecommendedRateWithRating:(NSString *)rating
+                                      volumeId:(NSString *)volumeId;
+
+#pragma mark -
+#pragma mark "volumes.useruploaded" methods
+// These create a GTLQueryBooks object.
+
+// Method: books.volumes.useruploaded.list
+// Return a list of books uploaded by the current user.
+//  Optional:
+//   locale: ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used
+//     for generating recommendations.
+//   maxResults: Maximum number of results to return. (0..40)
+//   processingState: The processing state of the user uploaded volumes to be
+//     returned.
+//      kGTLBooksProcessingStateCompletedFailed: The volume processing hase
+//        failed.
+//      kGTLBooksProcessingStateCompletedSuccess: The volume processing was
+//        completed.
+//      kGTLBooksProcessingStateRunning: The volume processing is not completed.
+//   source: String to identify the originator of this request.
+//   startIndex: Index of the first result to return (starts at 0)
+//   volumeId: The ids of the volumes to be returned. If not specified all that
+//     match the processingState are returned.
+//     Note: For this method, "volumeId" should be of type NSArray.
+//  Authorization scope(s):
+//   kGTLAuthScopeBooks
+// Fetches a GTLBooksVolumes.
++ (id)queryForVolumesUseruploadedList;
 
 @end

@@ -40,7 +40,6 @@
 
 #import "GTMHTTPFetcher.h"
 #import "GTMHTTPFetcherService.h"
-#import "GTLDefines.h"
 
 // async retrieval of an http get or post
 @interface GTMHTTPUploadFetcher : GTMHTTPFetcher {

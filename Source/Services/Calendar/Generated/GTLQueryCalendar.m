@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/google-apps/calendar/firstapp
 // Classes:
-//   GTLQueryCalendar (32 custom class methods, 29 custom properties)
+//   GTLQueryCalendar (34 custom class methods, 31 custom properties)
 
 #import "GTLQueryCalendar.h"
 
@@ -35,6 +35,7 @@
 #import "GTLCalendarCalendar.h"
 #import "GTLCalendarCalendarList.h"
 #import "GTLCalendarCalendarListEntry.h"
+#import "GTLCalendarChannel.h"
 #import "GTLCalendarColors.h"
 #import "GTLCalendarEvent.h"
 #import "GTLCalendarEvents.h"
@@ -48,14 +49,18 @@
 @dynamic alwaysIncludeEmail, calendarExpansionMax, calendarId, colorRgbFormat,
          destination, eventId, fields, groupExpansionMax, iCalUID, items,
          maxAttendees, maxResults, minAccessRole, orderBy, originalStart,
-         pageToken, q, ruleId, sendNotifications, setting, showDeleted,
-         showHidden, showHiddenInvitations, singleEvents, text, timeMax,
-         timeMin, timeZone, updatedMin;
+         pageToken, privateExtendedProperty, q, ruleId, sendNotifications,
+         setting, sharedExtendedProperty, showDeleted, showHidden,
+         showHiddenInvitations, singleEvents, text, timeMax, timeMin, timeZone,
+         updatedMin;
 
 + (NSDictionary *)arrayPropertyToClassMap {
   NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[GTLCalendarFreeBusyRequestItem class]
-                                forKey:@"items"];
+    [NSDictionary dictionaryWithObjectsAndKeys:
+      [GTLCalendarFreeBusyRequestItem class], @"items",
+      [NSString class], @"privateExtendedProperty",
+      [NSString class], @"sharedExtendedProperty",
+      nil];
   return map;
 }
 
@@ -269,6 +274,21 @@
 }
 
 #pragma mark -
+#pragma mark "channels" methods
+// These create a GTLQueryCalendar object.
+
++ (id)queryForChannelsStopWithObject:(GTLCalendarChannel *)object {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"calendar.channels.stop";
+  GTLQueryCalendar *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  return query;
+}
+
+#pragma mark -
 #pragma mark "colors" methods
 // These create a GTLQueryCalendar object.
 
@@ -399,6 +419,20 @@
   query.calendarId = calendarId;
   query.eventId = eventId;
   query.expectedObjectClass = [GTLCalendarEvent class];
+  return query;
+}
+
++ (id)queryForEventsWatchWithObject:(GTLCalendarChannel *)object
+                         calendarId:(NSString *)calendarId {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"calendar.events.watch";
+  GTLQueryCalendar *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.calendarId = calendarId;
+  query.expectedObjectClass = [GTLCalendarChannel class];
   return query;
 }
 

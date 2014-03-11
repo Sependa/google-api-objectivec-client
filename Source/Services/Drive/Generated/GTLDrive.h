@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@
 #import "GTLDriveAppList.h"
 #import "GTLDriveChange.h"
 #import "GTLDriveChangeList.h"
+#import "GTLDriveChannel.h"
 #import "GTLDriveChildList.h"
 #import "GTLDriveChildReference.h"
 #import "GTLDriveComment.h"
@@ -44,7 +45,10 @@
 #import "GTLDriveParentList.h"
 #import "GTLDriveParentReference.h"
 #import "GTLDrivePermission.h"
+#import "GTLDrivePermissionId.h"
 #import "GTLDrivePermissionList.h"
+#import "GTLDriveProperty.h"
+#import "GTLDrivePropertyList.h"
 #import "GTLDriveRevision.h"
 #import "GTLDriveRevisionList.h"
 #import "GTLDriveUser.h"

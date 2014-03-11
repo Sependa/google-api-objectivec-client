@@ -28,6 +28,7 @@
 - (BOOL)shouldSkipAuthorization;
 - (void)executionDidStop;
 - (NSDictionary *)additionalHTTPHeaders;
+- (NSDictionary *)urlQueryParameters;
 - (GTLUploadParameters *)uploadParameters;
 @end
 
@@ -78,7 +79,7 @@
 // or data must be provided.
 @property (copy) GTLUploadParameters *uploadParameters;
 
-// Any url query parameters to add to the query (useful for debugging with some
+// Any URL query parameters to add to the query (useful for debugging with some
 // services).
 @property (copy) NSDictionary *urlQueryParameters;
 
@@ -132,4 +133,9 @@
 // Methods for subclasses to override.
 + (NSDictionary *)parameterNameMap;
 + (NSDictionary *)arrayPropertyToClassMap;
+@end
+
+// The library doesn't use GTLQueryCollectionImpl, but it provides a concrete implementation
+// of the protocol so the methods do not cause a private method error in Xcode.
+@interface GTLQueryCollectionImpl : GTLQuery <GTLQueryCollectionProtocol>
 @end

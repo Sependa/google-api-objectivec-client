@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeChannel (0 custom class methods, 8 custom properties)
+//   GTLYouTubeChannel (0 custom class methods, 13 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -34,11 +34,16 @@
   #import "GTLObject.h"
 #endif
 
+@class GTLYouTubeChannelAuditDetails;
+@class GTLYouTubeChannelBrandingSettings;
 @class GTLYouTubeChannelContentDetails;
+@class GTLYouTubeChannelContentOwnerDetails;
+@class GTLYouTubeChannelConversionPings;
 @class GTLYouTubeChannelSnippet;
 @class GTLYouTubeChannelStatistics;
 @class GTLYouTubeChannelStatus;
 @class GTLYouTubeChannelTopicDetails;
+@class GTLYouTubeInvideoPromotion;
 
 // ----------------------------------------------------------------------------
 //
@@ -49,19 +54,39 @@
 
 @interface GTLYouTubeChannel : GTLObject
 
+// The auditionDetails object encapsulates channel data that is relevant for
+// YouTube Partners during the audition process.
+@property (retain) GTLYouTubeChannelAuditDetails *auditDetails;
+
+// The brandingSettings object encapsulates information about the branding of
+// the channel.
+@property (retain) GTLYouTubeChannelBrandingSettings *brandingSettings;
+
 // The contentDetails object encapsulates information about the channel's
 // content.
 @property (retain) GTLYouTubeChannelContentDetails *contentDetails;
 
-// The ETag for the channel resource.
+// The contentOwnerDetails object encapsulates channel data that is relevant for
+// YouTube Partners linked with the channel.
+@property (retain) GTLYouTubeChannelContentOwnerDetails *contentOwnerDetails;
+
+// The conversionPings object encapsulates information about conversion pings
+// that need to be respected by the channel.
+@property (retain) GTLYouTubeChannelConversionPings *conversionPings;
+
+// Etag of this resource.
 @property (copy) NSString *ETag;
 
 // The ID that YouTube uses to uniquely identify the channel.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
 
-// The type of the API resource. For channel resources, the value will be
-// youtube#channel.
+// The invideoPromotion object encapsulates information about promotion campaign
+// associated with the channel.
+@property (retain) GTLYouTubeInvideoPromotion *invideoPromotion;
+
+// Identifies what kind of resource this is. Value: the fixed string
+// "youtube#channel".
 @property (copy) NSString *kind;
 
 // The snippet object contains basic details about the channel, such as its

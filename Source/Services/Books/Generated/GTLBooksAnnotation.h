@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@
 // Documentation:
 //   https://developers.google.com/books/docs/v1/getting_started
 // Classes:
-//   GTLBooksAnnotation (0 custom class methods, 16 custom properties)
-//   GTLBooksAnnotationClientVersionRanges (0 custom class methods, 4 custom properties)
-//   GTLBooksAnnotationCurrentVersionRanges (0 custom class methods, 4 custom properties)
+//   GTLBooksAnnotation (0 custom class methods, 17 custom properties)
+//   GTLBooksAnnotationClientVersionRanges (0 custom class methods, 5 custom properties)
+//   GTLBooksAnnotationCurrentVersionRanges (0 custom class methods, 5 custom properties)
+//   GTLBooksAnnotationLayerSummary (0 custom class methods, 3 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -38,6 +39,7 @@
 
 @class GTLBooksAnnotationClientVersionRanges;
 @class GTLBooksAnnotationCurrentVersionRanges;
+@class GTLBooksAnnotationLayerSummary;
 @class GTLBooksAnnotationsRange;
 
 // ----------------------------------------------------------------------------
@@ -47,10 +49,12 @@
 
 @interface GTLBooksAnnotation : GTLObject
 
-// Anchor text after excerpt.
+// Anchor text after excerpt. For requests, if the user bookmarked a screen that
+// has no flowing text on it, then this field should be empty.
 @property (copy) NSString *afterSelectedText;
 
-// Anchor text before excerpt.
+// Anchor text before excerpt. For requests, if the user bookmarked a screen
+// that has no flowing text on it, then this field should be empty.
 @property (copy) NSString *beforeSelectedText;
 
 // Selection ranges sent from the client.
@@ -80,6 +84,8 @@
 
 // The layer this annotation is for.
 @property (copy) NSString *layerId;
+
+@property (retain) GTLBooksAnnotationLayerSummary *layerSummary;
 
 // Pages that this annotation spans.
 @property (retain) NSArray *pageIds;  // of NSString
@@ -118,6 +124,9 @@
 // Range in GB text format for this annotation sent by client.
 @property (retain) GTLBooksAnnotationsRange *gbTextRange;
 
+// Range in image CFI format for this annotation sent by client.
+@property (retain) GTLBooksAnnotationsRange *imageCfiRange;
+
 @end
 
 
@@ -139,5 +148,28 @@
 
 // Range in GB text format for this annotation for version above.
 @property (retain) GTLBooksAnnotationsRange *gbTextRange;
+
+// Range in image CFI format for this annotation for version above.
+@property (retain) GTLBooksAnnotationsRange *imageCfiRange;
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLBooksAnnotationLayerSummary
+//
+
+@interface GTLBooksAnnotationLayerSummary : GTLObject
+
+// Maximum allowed characters on this layer, especially for the "copy" layer.
+@property (retain) NSNumber *allowedCharacterCount;  // intValue
+
+// Type of limitation on this layer. "limited" or "unlimited" for the "copy"
+// layer.
+@property (copy) NSString *limitType;
+
+// Remaining allowed characters on this layer, especially for the "copy" layer.
+@property (retain) NSNumber *remainingCharacterCount;  // intValue
 
 @end

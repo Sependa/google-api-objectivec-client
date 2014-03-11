@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeSearchListResponse (0 custom class methods, 6 custom properties)
+//   GTLYouTubeSearchListResponse (0 custom class methods, 9 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -36,40 +36,44 @@
 
 @class GTLYouTubePageInfo;
 @class GTLYouTubeSearchResult;
+@class GTLYouTubeTokenPagination;
 
 // ----------------------------------------------------------------------------
 //
 //   GTLYouTubeSearchListResponse
 //
 
-// A paginated list of search results returned as the response to a
-// youtube.search.list call.
-
 // This class supports NSFastEnumeration over its "items" property. It also
 // supports -itemAtIndex: to retrieve individual objects from "items".
 
 @interface GTLYouTubeSearchListResponse : GTLCollectionObject
 
-// The ETag for the response.
+// Etag of this resource.
 @property (copy) NSString *ETag;
+
+// Serialized EventId of the request which produced this response.
+@property (copy) NSString *eventId;
 
 // A list of results that match the search criteria.
 @property (retain) NSArray *items;  // of GTLYouTubeSearchResult
 
-// The type of the API response. For this operation, the value will be
-// youtube#searchListResponse.
+// Identifies what kind of resource this is. Value: the fixed string
+// "youtube#searchListResponse".
 @property (copy) NSString *kind;
 
 // The token that can be used as the value of the pageToken parameter to
 // retrieve the next page in the result set.
 @property (copy) NSString *nextPageToken;
 
-// The pageInfo object encapsulates paging information for the search result
-// set.
 @property (retain) GTLYouTubePageInfo *pageInfo;
 
 // The token that can be used as the value of the pageToken parameter to
 // retrieve the previous page in the result set.
 @property (copy) NSString *prevPageToken;
+
+@property (retain) GTLYouTubeTokenPagination *tokenPagination;
+
+// The visitorId identifies the visitor.
+@property (copy) NSString *visitorId;
 
 @end

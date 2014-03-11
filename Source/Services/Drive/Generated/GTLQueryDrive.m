@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLQueryDrive (46 custom class methods, 30 custom properties)
+//   GTLQueryDrive (58 custom class methods, 37 custom properties)
 
 #import "GTLQueryDrive.h"
 
@@ -35,6 +35,7 @@
 #import "GTLDriveAppList.h"
 #import "GTLDriveChange.h"
 #import "GTLDriveChangeList.h"
+#import "GTLDriveChannel.h"
 #import "GTLDriveChildList.h"
 #import "GTLDriveChildReference.h"
 #import "GTLDriveComment.h"
@@ -46,18 +47,23 @@
 #import "GTLDriveParentList.h"
 #import "GTLDriveParentReference.h"
 #import "GTLDrivePermission.h"
+#import "GTLDrivePermissionId.h"
 #import "GTLDrivePermissionList.h"
+#import "GTLDriveProperty.h"
+#import "GTLDrivePropertyList.h"
 #import "GTLDriveRevision.h"
 #import "GTLDriveRevisionList.h"
 
 @implementation GTLQueryDrive
 
-@dynamic appId, changeId, childId, commentId, convert, fields, fileId, folderId,
-         includeDeleted, includeSubscribed, maxChangeIdCount, maxResults,
-         newRevision, ocr, ocrLanguage, pageToken, parentId, permissionId,
-         pinned, projection, q, replyId, revisionId, sendNotificationEmails,
+@dynamic appId, baseRevision, changeId, childId, commentId, convert, email,
+         emailMessage, fields, fileId, folderId, includeDeleted,
+         includeSubscribed, maxChangeIdCount, maxResults, newRevision, ocr,
+         ocrLanguage, pageToken, parentId, permissionId, pinned, projection,
+         propertyKey, q, replyId, revisionId, sendNotificationEmails,
          setModifiedDate, startChangeId, timedTextLanguage, timedTextTrackName,
-         updatedMin, updateViewedDate;
+         transferOwnership, updatedMin, updateViewedDate,
+         useContentAsIndexableText, visibility;
 
 #pragma mark -
 #pragma mark "about" methods
@@ -105,6 +111,33 @@
   NSString *methodName = @"drive.changes.list";
   GTLQueryDrive *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLDriveChangeList class];
+  return query;
+}
+
++ (id)queryForChangesWatchWithObject:(GTLDriveChannel *)object {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"drive.changes.watch";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.expectedObjectClass = [GTLDriveChannel class];
+  return query;
+}
+
+#pragma mark -
+#pragma mark "channels" methods
+// These create a GTLQueryDrive object.
+
++ (id)queryForChannelsStopWithObject:(GTLDriveChannel *)object {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"drive.channels.stop";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
   return query;
 }
 
@@ -338,6 +371,20 @@
   return query;
 }
 
++ (id)queryForFilesWatchWithObject:(GTLDriveChannel *)object
+                            fileId:(NSString *)fileId {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"drive.files.watch";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.fileId = fileId;
+  query.expectedObjectClass = [GTLDriveChannel class];
+  return query;
+}
+
 #pragma mark -
 #pragma mark "parents" methods
 // These create a GTLQueryDrive object.
@@ -406,6 +453,14 @@
   return query;
 }
 
++ (id)queryForPermissionsGetIdForEmailWithEmail:(NSString *)email {
+  NSString *methodName = @"drive.permissions.getIdForEmail";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.email = email;
+  query.expectedObjectClass = [GTLDrivePermissionId class];
+  return query;
+}
+
 + (id)queryForPermissionsInsertWithObject:(GTLDrivePermission *)object
                                    fileId:(NSString *)fileId {
   if (object == nil) {
@@ -457,6 +512,103 @@
   query.fileId = fileId;
   query.permissionId = permissionId;
   query.expectedObjectClass = [GTLDrivePermission class];
+  return query;
+}
+
+#pragma mark -
+#pragma mark "properties" methods
+// These create a GTLQueryDrive object.
+
++ (id)queryForPropertiesDeleteWithFileId:(NSString *)fileId
+                             propertyKey:(NSString *)propertyKey {
+  NSString *methodName = @"drive.properties.delete";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.fileId = fileId;
+  query.propertyKey = propertyKey;
+  return query;
+}
+
++ (id)queryForPropertiesGetWithFileId:(NSString *)fileId
+                          propertyKey:(NSString *)propertyKey {
+  NSString *methodName = @"drive.properties.get";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.fileId = fileId;
+  query.propertyKey = propertyKey;
+  query.expectedObjectClass = [GTLDriveProperty class];
+  return query;
+}
+
++ (id)queryForPropertiesInsertWithObject:(GTLDriveProperty *)object
+                                  fileId:(NSString *)fileId {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"drive.properties.insert";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.fileId = fileId;
+  query.expectedObjectClass = [GTLDriveProperty class];
+  return query;
+}
+
++ (id)queryForPropertiesListWithFileId:(NSString *)fileId {
+  NSString *methodName = @"drive.properties.list";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.fileId = fileId;
+  query.expectedObjectClass = [GTLDrivePropertyList class];
+  return query;
+}
+
++ (id)queryForPropertiesPatchWithObject:(GTLDriveProperty *)object
+                                 fileId:(NSString *)fileId
+                            propertyKey:(NSString *)propertyKey {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"drive.properties.patch";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.fileId = fileId;
+  query.propertyKey = propertyKey;
+  query.expectedObjectClass = [GTLDriveProperty class];
+  return query;
+}
+
++ (id)queryForPropertiesUpdateWithObject:(GTLDriveProperty *)object
+                                  fileId:(NSString *)fileId
+                             propertyKey:(NSString *)propertyKey {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"drive.properties.update";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.fileId = fileId;
+  query.propertyKey = propertyKey;
+  query.expectedObjectClass = [GTLDriveProperty class];
+  return query;
+}
+
+#pragma mark -
+#pragma mark "realtime" methods
+// These create a GTLQueryDrive object.
+
++ (id)queryForRealtimeGetWithFileId:(NSString *)fileId {
+  NSString *methodName = @"drive.realtime.get";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.fileId = fileId;
+  return query;
+}
+
++ (id)queryForRealtimeUpdateWithFileId:(NSString *)fileId
+                      uploadParameters:(GTLUploadParameters *)uploadParametersOrNil {
+  NSString *methodName = @"drive.realtime.update";
+  GTLQueryDrive *query = [self queryWithMethodName:methodName];
+  query.fileId = fileId;
+  query.uploadParameters = uploadParametersOrNil;
   return query;
 }
 

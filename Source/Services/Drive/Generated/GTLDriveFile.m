@@ -26,11 +26,12 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLDriveFile (0 custom class methods, 37 custom properties)
+//   GTLDriveFile (0 custom class methods, 45 custom properties)
 //   GTLDriveFileExportLinks (0 custom class methods, 0 custom properties)
 //   GTLDriveFileImageMediaMetadata (0 custom class methods, 21 custom properties)
 //   GTLDriveFileIndexableText (0 custom class methods, 1 custom properties)
 //   GTLDriveFileLabels (0 custom class methods, 5 custom properties)
+//   GTLDriveFileOpenWithLinks (0 custom class methods, 0 custom properties)
 //   GTLDriveFileThumbnail (0 custom class methods, 2 custom properties)
 //   GTLDriveFileImageMediaMetadataLocation (0 custom class methods, 3 custom properties)
 
@@ -38,6 +39,8 @@
 
 #import "GTLDriveParentReference.h"
 #import "GTLDrivePermission.h"
+#import "GTLDriveProperty.h"
+#import "GTLDriveUser.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -45,14 +48,16 @@
 //
 
 @implementation GTLDriveFile
-@dynamic alternateLink, createdDate, descriptionProperty, downloadUrl, editable,
+@dynamic alternateLink, appDataContents, copyable, createdDate,
+         defaultOpenWithLink, descriptionProperty, downloadUrl, editable,
          embedLink, ETag, explicitlyTrashed, exportLinks, fileExtension,
-         fileSize, iconLink, identifier, imageMediaMetadata, indexableText,
-         kind, labels, lastModifyingUserName, lastViewedByMeDate, md5Checksum,
-         mimeType, modifiedByMeDate, modifiedDate, originalFilename, ownerNames,
-         parents, quotaBytesUsed, selfLink, shared, sharedWithMeDate, thumbnail,
-         thumbnailLink, title, userPermission, webContentLink, webViewLink,
-         writersCanShare;
+         fileSize, headRevisionId, iconLink, identifier, imageMediaMetadata,
+         indexableText, kind, labels, lastModifyingUser, lastModifyingUserName,
+         lastViewedByMeDate, md5Checksum, mimeType, modifiedByMeDate,
+         modifiedDate, openWithLinks, originalFilename, ownerNames, owners,
+         parents, properties, quotaBytesUsed, selfLink, shared,
+         sharedWithMeDate, thumbnail, thumbnailLink, title, userPermission,
+         webContentLink, webViewLink, writersCanShare;
 
 + (NSDictionary *)propertyToJSONKeyMap {
   NSDictionary *map =
@@ -68,7 +73,9 @@
   NSDictionary *map =
     [NSDictionary dictionaryWithObjectsAndKeys:
       [NSString class], @"ownerNames",
+      [GTLDriveUser class], @"owners",
       [GTLDriveParentReference class], @"parents",
+      [GTLDriveProperty class], @"properties",
       nil];
   return map;
 }
@@ -124,6 +131,20 @@
 
 @implementation GTLDriveFileLabels
 @dynamic hidden, restricted, starred, trashed, viewed;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLDriveFileOpenWithLinks
+//
+
+@implementation GTLDriveFileOpenWithLinks
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
 @end
 
 

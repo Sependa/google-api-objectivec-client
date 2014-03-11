@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,8 @@
 // A list of available elections
 @property (retain) NSArray *elections;  // of GTLCivicInfoElection
 
-// The kind, fixed to "civicinfo#electionsQueryResponse".
+// Identifies what kind of resource this is. Value: the fixed string
+// "civicinfo#electionsQueryResponse".
 @property (copy) NSString *kind;
 
 @end

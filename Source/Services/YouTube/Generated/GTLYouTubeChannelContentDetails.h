@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeChannelContentDetails (0 custom class methods, 1 custom properties)
+//   GTLYouTubeChannelContentDetails (0 custom class methods, 2 custom properties)
 //   GTLYouTubeChannelContentDetailsRelatedPlaylists (0 custom class methods, 5 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
@@ -46,11 +46,11 @@
 
 @interface GTLYouTubeChannelContentDetails : GTLObject
 
-// The relatedPlaylists object is a map that identifies playlists associated
-// with the channel, such as the channel's uploaded videos or favorite videos.
-// You can retrieve any of these playlists using the playlists.list method.
-@property (retain) GTLYouTubeChannelContentDetailsRelatedPlaylists *relatedPlaylists;
+// The googlePlusUserId object identifies the Google+ profile ID associated with
+// this channel.
+@property (copy) NSString *googlePlusUserId;
 
+@property (retain) GTLYouTubeChannelContentDetailsRelatedPlaylists *relatedPlaylists;
 @end
 
 
@@ -61,28 +61,29 @@
 
 @interface GTLYouTubeChannelContentDetailsRelatedPlaylists : GTLObject
 
-// The ID of the playlist that contains the channel's favorite videos. Use the
+// The ID of the playlist that contains the channel"s favorite videos. Use the
 // playlistItems.insert and playlistItems.delete to add or remove items from
 // that list.
 @property (copy) NSString *favorites;
 
-// The ID of the playlist that contains the channel's liked videos. Use the
+// The ID of the playlist that contains the channel"s liked videos. Use the
 // playlistItems.insert and playlistItems.delete to add or remove items from
 // that list.
 @property (copy) NSString *likes;
 
-// The ID of the playlist that contains the channel's uploaded videos. Use the
+// The ID of the playlist that contains the channel"s uploaded videos. Use the
 // videos.insert method to upload new videos and the videos.delete method to
 // delete previously uploaded videos.
 @property (copy) NSString *uploads;
 
-// The ID of the playlist that contains the channel's watch history. Use the
+// The ID of the playlist that contains the channel"s watch history. Use the
 // playlistItems.insert and playlistItems.delete to add or remove items from
 // that list.
 @property (copy) NSString *watchHistory;
 
-// The ID of the channel's watch later playlist. Use the playlistItems.insert
-// and playlistItems.delete to add or remove items from that list.
+// The ID of the playlist that contains the channel"s watch later playlist. Use
+// the playlistItems.insert and playlistItems.delete to add or remove items from
+// that list.
 @property (copy) NSString *watchLater;
 
 @end

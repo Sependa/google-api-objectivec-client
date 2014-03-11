@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,13 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeGuideCategoryListResponse (0 custom class methods, 3 custom properties)
+//   GTLYouTubeGuideCategoryListResponse (0 custom class methods, 9 custom properties)
 
 #import "GTLYouTubeGuideCategoryListResponse.h"
 
 #import "GTLYouTubeGuideCategory.h"
+#import "GTLYouTubePageInfo.h"
+#import "GTLYouTubeTokenPagination.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -38,7 +40,8 @@
 //
 
 @implementation GTLYouTubeGuideCategoryListResponse
-@dynamic ETag, items, kind;
+@dynamic ETag, eventId, items, kind, nextPageToken, pageInfo, prevPageToken,
+         tokenPagination, visitorId;
 
 + (NSDictionary *)propertyToJSONKeyMap {
   NSDictionary *map =

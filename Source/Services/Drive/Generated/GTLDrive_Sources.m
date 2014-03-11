@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@
 #import "GTLDriveAppList.m"
 #import "GTLDriveChange.m"
 #import "GTLDriveChangeList.m"
+#import "GTLDriveChannel.m"
 #import "GTLDriveChildList.m"
 #import "GTLDriveChildReference.m"
 #import "GTLDriveComment.m"
@@ -47,7 +48,10 @@
 #import "GTLDriveParentList.m"
 #import "GTLDriveParentReference.m"
 #import "GTLDrivePermission.m"
+#import "GTLDrivePermissionId.m"
 #import "GTLDrivePermissionList.m"
+#import "GTLDriveProperty.m"
+#import "GTLDrivePropertyList.m"
 #import "GTLDriveRevision.m"
 #import "GTLDriveRevisionList.m"
 #import "GTLDriveUser.m"

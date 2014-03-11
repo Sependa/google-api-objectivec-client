@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,11 +43,15 @@
                       [GTLBooksAnnotations class],
                       [GTLBooksAnnotationsdata class],
                       [GTLBooksAnnotationsRange class],
+                      [GTLBooksAnnotationsSummary class],
                       [GTLBooksBookshelf class],
                       [GTLBooksBookshelves class],
+                      [GTLBooksCloudloadingResource class],
                       [GTLBooksConcurrentAccessRestriction class],
+                      [GTLBooksDictlayerdata class],
                       [GTLBooksDownloadAccesses class],
                       [GTLBooksDownloadAccessRestriction class],
+                      [GTLBooksGeolayerdata class],
                       [GTLBooksLayersummaries class],
                       [GTLBooksLayersummary class],
                       [GTLBooksReadingPosition class],
@@ -57,6 +61,7 @@
                       [GTLBooksVolumeannotation class],
                       [GTLBooksVolumeannotations class],
                       [GTLBooksVolumes class],
+                      [GTLBooksVolumesRecommendedRateResponse class],
                       nil];
   return classes;
 }

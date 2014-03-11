@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsWebproperty (0 custom class methods, 11 custom properties)
+//   GTLAnalyticsWebproperty (0 custom class methods, 16 custom properties)
 //   GTLAnalyticsWebpropertyChildLink (0 custom class methods, 2 custom properties)
 //   GTLAnalyticsWebpropertyParentLink (0 custom class methods, 2 custom properties)
+//   GTLAnalyticsWebpropertyPermissions (0 custom class methods, 1 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -38,6 +39,7 @@
 
 @class GTLAnalyticsWebpropertyChildLink;
 @class GTLAnalyticsWebpropertyParentLink;
+@class GTLAnalyticsWebpropertyPermissions;
 
 // ----------------------------------------------------------------------------
 //
@@ -51,16 +53,22 @@
 // Account ID to which this web property belongs.
 @property (copy) NSString *accountId;
 
-// Child link for this web property. Points to the list of profiles for this web
-// property.
+// Child link for this web property. Points to the list of views (profiles) for
+// this web property.
 @property (retain) GTLAnalyticsWebpropertyChildLink *childLink;
 
 // Time this web property was created.
 @property (retain) GTLDateTime *created;
 
+// Default view (profile) ID.
+@property (retain) NSNumber *defaultProfileId;  // longLongValue
+
 // Web property ID of the form UA-XXXXX-YY.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
+
+// The industry vertical/category selected for this web property.
+@property (copy) NSString *industryVertical;
 
 // Internal ID for this web property.
 @property (copy) NSString *internalWebPropertyId;
@@ -68,12 +76,21 @@
 // Resource type for Analytics WebProperty.
 @property (copy) NSString *kind;
 
+// Level for this web property. Possible values are STANDARD or PREMIUM.
+@property (copy) NSString *level;
+
 // Name of this web property.
 @property (copy) NSString *name;
 
 // Parent link for this web property. Points to the account to which this web
 // property belongs.
 @property (retain) GTLAnalyticsWebpropertyParentLink *parentLink;
+
+// Permissions the user has for this web property.
+@property (retain) GTLAnalyticsWebpropertyPermissions *permissions;
+
+// View (Profile) count for this web property.
+@property (retain) NSNumber *profileCount;  // intValue
 
 // Link for this web property.
 @property (copy) NSString *selfLink;
@@ -94,7 +111,7 @@
 
 @interface GTLAnalyticsWebpropertyChildLink : GTLObject
 
-// Link to the list of profiles for this web property.
+// Link to the list of views (profiles) for this web property.
 @property (copy) NSString *href;
 
 // Type of the parent link. Its value is "analytics#profiles".
@@ -115,5 +132,20 @@
 
 // Type of the parent link. Its value is "analytics#account".
 @property (copy) NSString *type;
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsWebpropertyPermissions
+//
+
+@interface GTLAnalyticsWebpropertyPermissions : GTLObject
+
+// All the permissions that the user has for this web property. These include
+// any implied permissions (e.g., EDIT implies VIEW) or inherited permissions
+// from the parent account.
+@property (retain) NSArray *effective;  // of NSString
 
 @end

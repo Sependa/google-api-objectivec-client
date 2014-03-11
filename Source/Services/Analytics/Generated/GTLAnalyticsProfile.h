@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsProfile (0 custom class methods, 20 custom properties)
+//   GTLAnalyticsProfile (0 custom class methods, 21 custom properties)
 //   GTLAnalyticsProfileChildLink (0 custom class methods, 2 custom properties)
 //   GTLAnalyticsProfileParentLink (0 custom class methods, 2 custom properties)
+//   GTLAnalyticsProfilePermissions (0 custom class methods, 1 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -38,76 +39,86 @@
 
 @class GTLAnalyticsProfileChildLink;
 @class GTLAnalyticsProfileParentLink;
+@class GTLAnalyticsProfilePermissions;
 
 // ----------------------------------------------------------------------------
 //
 //   GTLAnalyticsProfile
 //
 
-// JSON template for an Analytics profile.
+// JSON template for an Analytics view (profile).
 
 @interface GTLAnalyticsProfile : GTLObject
 
-// Account ID to which this profile belongs.
+// Account ID to which this view (profile) belongs.
 @property (copy) NSString *accountId;
 
-// Child link for this profile. Points to the list of goals for this profile.
+// Child link for this view (profile). Points to the list of goals for this view
+// (profile).
 @property (retain) GTLAnalyticsProfileChildLink *childLink;
 
-// Time this profile was created.
+// Time this view (profile) was created.
 @property (retain) GTLDateTime *created;
 
-// The currency type associated with this profile.
+// The currency type associated with this view (profile). The supported values
+// are:
+// ARS, AUD, BGN, BRL, CAD, CHF, CNY, CZK, DKK, EUR, GBP, HKD, HUF, IDR, INR,
+// JPY, KRW, LTL, MXN, NOK, NZD, PHP, PLN, RUB, SEK, THB, TRY, TWD, USD, VND,
+// ZAR
 @property (copy) NSString *currency;
 
-// Default page for this profile.
+// Default page for this view (profile).
 @property (copy) NSString *defaultPage;
 
-// E-commerce tracking parameter for this profile.
+// Indicates whether ecommerce tracking is enabled for this view (profile).
 @property (retain) NSNumber *eCommerceTracking;  // boolValue
 
-// The query parameters that are excluded from this profile.
+// The query parameters that are excluded from this view (profile).
 @property (copy) NSString *excludeQueryParameters;
 
-// Profile ID.
+// View (Profile) ID.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
 
-// Internal ID for the web property to which this profile belongs.
+// Internal ID for the web property to which this view (profile) belongs.
 @property (copy) NSString *internalWebPropertyId;
 
-// Resource type for Analytics profile.
+// Resource type for Analytics view (profile).
 @property (copy) NSString *kind;
 
-// Name of this profile.
+// Name of this view (profile).
 @property (copy) NSString *name;
 
-// Parent link for this profile. Points to the web property to which this
-// profile belongs.
+// Parent link for this view (profile). Points to the web property to which this
+// view (profile) belongs.
 @property (retain) GTLAnalyticsProfileParentLink *parentLink;
 
-// Link for this profile.
+// Permissions the user has for this view (profile).
+@property (retain) GTLAnalyticsProfilePermissions *permissions;
+
+// Link for this view (profile).
 @property (copy) NSString *selfLink;
 
-// Site search category parameters for this profile.
+// Site search category parameters for this view (profile).
 @property (copy) NSString *siteSearchCategoryParameters;
 
-// The site search query parameters for this profile.
+// The site search query parameters for this view (profile).
 @property (copy) NSString *siteSearchQueryParameters;
 
-// Time zone for which this profile has been configured.
+// Time zone for which this view (profile) has been configured. Time zones are
+// identified by strings from the TZ database.
 @property (copy) NSString *timezone;
 
-// Profile type. Supported types: WEB or APP.
+// View (Profile) type. Supported types: WEB or APP.
 @property (copy) NSString *type;
 
-// Time this profile was last modified.
+// Time this view (profile) was last modified.
 @property (retain) GTLDateTime *updated;
 
-// Web property ID of the form UA-XXXXX-YY to which this profile belongs.
+// Web property ID of the form UA-XXXXX-YY to which this view (profile) belongs.
 @property (copy) NSString *webPropertyId;
 
-// Website URL for this profile.
+// Website URL for this view (profile).
 @property (copy) NSString *websiteUrl;
 
 @end
@@ -120,7 +131,7 @@
 
 @interface GTLAnalyticsProfileChildLink : GTLObject
 
-// Link to the list of goals for this profile.
+// Link to the list of goals for this view (profile).
 @property (copy) NSString *href;
 
 // Value is "analytics#goals".
@@ -136,10 +147,25 @@
 
 @interface GTLAnalyticsProfileParentLink : GTLObject
 
-// Link to the web property to which this profile belongs.
+// Link to the web property to which this view (profile) belongs.
 @property (copy) NSString *href;
 
 // Value is "analytics#webproperty".
 @property (copy) NSString *type;
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLAnalyticsProfilePermissions
+//
+
+@interface GTLAnalyticsProfilePermissions : GTLObject
+
+// All the permissions that the user has for this view (profile). These include
+// any implied permissions (e.g., EDIT implies VIEW) or inherited permissions
+// from the parent web property.
+@property (retain) NSArray *effective;  // of NSString
 
 @end

@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,22 +29,35 @@
 #import "GTLAnalyticsConstants.h"
 
 #import "GTLAnalyticsAccount.h"
+#import "GTLAnalyticsAccountRef.h"
 #import "GTLAnalyticsAccounts.h"
+#import "GTLAnalyticsColumn.h"
+#import "GTLAnalyticsColumns.h"
 #import "GTLAnalyticsCustomDataSource.h"
 #import "GTLAnalyticsCustomDataSources.h"
 #import "GTLAnalyticsDailyUpload.h"
 #import "GTLAnalyticsDailyUploadAppend.h"
 #import "GTLAnalyticsDailyUploads.h"
+#import "GTLAnalyticsEntityUserLink.h"
+#import "GTLAnalyticsEntityUserLinks.h"
+#import "GTLAnalyticsExperiment.h"
+#import "GTLAnalyticsExperiments.h"
 #import "GTLAnalyticsGaData.h"
 #import "GTLAnalyticsGoal.h"
 #import "GTLAnalyticsGoals.h"
 #import "GTLAnalyticsMcfData.h"
 #import "GTLAnalyticsProfile.h"
+#import "GTLAnalyticsProfileRef.h"
 #import "GTLAnalyticsProfiles.h"
+#import "GTLAnalyticsRealtimeData.h"
 #import "GTLAnalyticsSegment.h"
 #import "GTLAnalyticsSegments.h"
+#import "GTLAnalyticsUpload.h"
+#import "GTLAnalyticsUploads.h"
+#import "GTLAnalyticsUserRef.h"
 #import "GTLAnalyticsWebproperties.h"
 #import "GTLAnalyticsWebproperty.h"
+#import "GTLAnalyticsWebPropertyRef.h"
 
 #import "GTLQueryAnalytics.h"
 #import "GTLServiceAnalytics.h"
