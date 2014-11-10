@@ -1,0 +1,4 @@
+= 0.3.0
+
+* Moved to latest and greatest Google API SDK from Googles SVN
+* Updated podspec so that it now contains three subspecs: Core, Drive and Calendar. You should update your Podfile to make sure you're using only the one that you actually should be using.
