@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/youtube/v3
 // Classes:
-//   GTLYouTubeVideoStatus (0 custom class methods, 7 custom properties)
+//   GTLYouTubeVideoStatus (0 custom class methods, 8 custom properties)
 
 #import "GTLYouTubeVideoStatus.h"
 
@@ -37,5 +37,5 @@
 
 @implementation GTLYouTubeVideoStatus
 @dynamic embeddable, failureReason, license, privacyStatus, publicStatsViewable,
-         rejectionReason, uploadStatus;
+         publishAt, rejectionReason, uploadStatus;
 @end

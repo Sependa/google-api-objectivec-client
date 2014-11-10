@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@
 // Documentation:
 //   https://developers.google.com/google-apps/calendar/firstapp
 // Classes:
-//   GTLCalendarCalendarListEntry (0 custom class methods, 16 custom properties)
+//   GTLCalendarCalendarListEntry (0 custom class methods, 18 custom properties)
+//   GTLCalendarCalendarListEntryNotificationSettings (0 custom class methods, 1 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -34,7 +35,9 @@
   #import "GTLObject.h"
 #endif
 
+@class GTLCalendarCalendarListEntryNotificationSettings;
 @class GTLCalendarEventReminder;
+@class GTLCalendarNotification;
 
 // ----------------------------------------------------------------------------
 //
@@ -55,17 +58,21 @@
 // manipulate ACLs.
 @property (copy) NSString *accessRole;
 
-// The main color of the calendar in the format '#0088aa'. This property
-// supersedes the index-based colorId property. Optional.
+// The main color of the calendar in the hexadecimal format "#0088aa". This
+// property supersedes the index-based colorId property. Optional.
 @property (copy) NSString *backgroundColor;
 
 // The color of the calendar. This is an ID referring to an entry in the
-// "calendar" section of the colors definition (see the "colors" endpoint).
+// calendar section of the colors definition (see the colors endpoint).
 // Optional.
 @property (copy) NSString *colorId;
 
 // The default reminders that the authenticated user has for this calendar.
 @property (retain) NSArray *defaultReminders;  // of GTLCalendarEventReminder
+
+// Whether this calendar list entry has been deleted from the calendar list.
+// Read-only. Optional. The default is False.
+@property (retain) NSNumber *deleted;  // boolValue
 
 // Description of the calendar. Optional. Read-only.
 // Remapped to 'descriptionProperty' to avoid NSObject's 'description'.
@@ -74,8 +81,8 @@
 // ETag of the resource.
 @property (copy) NSString *ETag;
 
-// The foreground color of the calendar in the format '#ffffff'. This property
-// supersedes the index-based colorId property. Optional.
+// The foreground color of the calendar in the hexadecimal format "#ffffff".
+// This property supersedes the index-based colorId property. Optional.
 @property (copy) NSString *foregroundColor;
 
 // Whether the calendar has been hidden from the list. Optional. The default is
@@ -91,6 +98,9 @@
 
 // Geographic location of the calendar as free-form text. Optional. Read-only.
 @property (copy) NSString *location;
+
+// The notifications that the authenticated user is receiving for this calendar.
+@property (retain) GTLCalendarCalendarListEntryNotificationSettings *notificationSettings;
 
 // Whether the calendar is the primary calendar of the authenticated user.
 // Read-only. Optional. The default is False.
@@ -108,5 +118,18 @@
 
 // The time zone of the calendar. Optional. Read-only.
 @property (copy) NSString *timeZone;
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLCalendarCalendarListEntryNotificationSettings
+//
+
+@interface GTLCalendarCalendarListEntryNotificationSettings : GTLObject
+
+// The list of notifications set for this calendar.
+@property (retain) NSArray *notifications;  // of GTLCalendarNotification
 
 @end

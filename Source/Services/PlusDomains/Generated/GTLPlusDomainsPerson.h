@@ -29,7 +29,7 @@
 //   GTLPlusDomainsPerson (0 custom class methods, 28 custom properties)
 //   GTLPlusDomainsPersonCover (0 custom class methods, 3 custom properties)
 //   GTLPlusDomainsPersonEmailsItem (0 custom class methods, 2 custom properties)
-//   GTLPlusDomainsPersonImage (0 custom class methods, 1 custom properties)
+//   GTLPlusDomainsPersonImage (0 custom class methods, 2 custom properties)
 //   GTLPlusDomainsPersonName (0 custom class methods, 6 custom properties)
 //   GTLPlusDomainsPersonOrganizationsItem (0 custom class methods, 9 custom properties)
 //   GTLPlusDomainsPersonPlacesLivedItem (0 custom class methods, 2 custom properties)
@@ -76,7 +76,7 @@
 // The cover photo content.
 @property (retain) GTLPlusDomainsPersonCover *cover;
 
-// The current location for this person.
+// (this field is not currently used)
 @property (copy) NSString *currentLocation;
 
 // The name of this person, which is suitable for display.
@@ -220,6 +220,9 @@
 //
 
 @interface GTLPlusDomainsPersonImage : GTLObject
+
+// Whether the person's profile photo is the default one
+@property (retain) NSNumber *isDefault;  // boolValue
 
 // The URL of the person's profile photo. To resize the image and crop it to a
 // square, append the query string ?sz=x, where x is the dimension in pixels of

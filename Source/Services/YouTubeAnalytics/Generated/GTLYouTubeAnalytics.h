@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,10 @@
 
 #import "GTLYouTubeAnalyticsConstants.h"
 
+#import "GTLYouTubeAnalyticsBatchReportDefinitionList.h"
+#import "GTLYouTubeAnalyticsBatchReportDefinitionTemplate.h"
+#import "GTLYouTubeAnalyticsBatchReportList.h"
+#import "GTLYouTubeAnalyticsBatchReportTemplate.h"
 #import "GTLYouTubeAnalyticsResultTable.h"
 
 #import "GTLQueryYouTubeAnalytics.h"

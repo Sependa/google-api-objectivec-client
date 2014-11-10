@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name         = "google-api-objc"
-  s.version      = "0.2.2"
+  s.version      = "0.3.0"
   s.summary      = "Google API SDK."
   s.homepage     = "http://code.google.com/p/google-api-objectivec-client/"
   s.license      = 'Apache License 2.0'
   s.author       = 'Google'
   
   s.source       = { :git => "https://github.com/Taptera/google-api-objectivec-client.git", :tag => "#{s.version}"}
-  s.ios.deployment_target = "5.0"
+  s.ios.deployment_target = "6.0"
   s.osx.deployment_target = "10.9"
   
   s.resources = 'Source/OAuth2/Touch/GTMOAuth2ViewTouch.xib'

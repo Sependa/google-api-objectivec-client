@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsSegment (0 custom class methods, 8 custom properties)
+//   GTLAnalyticsSegment (0 custom class methods, 9 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -39,33 +39,36 @@
 //   GTLAnalyticsSegment
 //
 
-// JSON template for an Analytics advanced segment.
+// JSON template for an Analytics segment.
 
 @interface GTLAnalyticsSegment : GTLObject
 
-// Time the advanced segment was created.
+// Time the segment was created.
 @property (retain) GTLDateTime *created;
 
-// Advanced segment definition.
+// Segment definition.
 @property (copy) NSString *definition;
 
-// Advanced segment ID.
+// Segment ID.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
 
-// Resource type for Analytics advanced segment.
+// Resource type for Analytics segment.
 @property (copy) NSString *kind;
 
-// Advanced segment name.
+// Segment name.
 @property (copy) NSString *name;
 
-// Segment ID. Can be used with the 'segment' parameter in Data Feed.
+// Segment ID. Can be used with the 'segment' parameter in Core Reporting API.
 @property (copy) NSString *segmentId;
 
-// Link for this advanced segment.
+// Link for this segment.
 @property (copy) NSString *selfLink;
 
-// Time the advanced segment was last modified.
+// Type for a segment. Possible values are "BUILT_IN" or "CUSTOM".
+@property (copy) NSString *type;
+
+// Time the segment was last modified.
 @property (retain) GTLDateTime *updated;
 
 @end

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +26,18 @@
 // Documentation:
 //   https://developers.google.com/glass
 // Classes:
-//   GTLQueryMirror (22 custom class methods, 11 custom properties)
+//   GTLQueryMirror (24 custom class methods, 14 custom properties)
 
 #import "GTLQueryMirror.h"
 
+#import "GTLMirrorAccount.h"
 #import "GTLMirrorAttachment.h"
 #import "GTLMirrorAttachmentsListResponse.h"
 #import "GTLMirrorContact.h"
 #import "GTLMirrorContactsListResponse.h"
 #import "GTLMirrorLocation.h"
 #import "GTLMirrorLocationsListResponse.h"
+#import "GTLMirrorSetting.h"
 #import "GTLMirrorSubscription.h"
 #import "GTLMirrorSubscriptionsListResponse.h"
 #import "GTLMirrorTimelineItem.h"
@@ -43,14 +45,37 @@
 
 @implementation GTLQueryMirror
 
-@dynamic attachmentId, bundleId, fields, identifier, includeDeleted, itemId,
-         maxResults, orderBy, pageToken, pinnedOnly, sourceItemId;
+@dynamic accountName, accountType, attachmentId, bundleId, fields, identifier,
+         includeDeleted, itemId, maxResults, orderBy, pageToken, pinnedOnly,
+         sourceItemId, userToken;
 
 + (NSDictionary *)parameterNameMap {
   NSDictionary *map =
     [NSDictionary dictionaryWithObject:@"id"
                                 forKey:@"identifier"];
   return map;
+}
+
+#pragma mark -
+#pragma mark "accounts" methods
+// These create a GTLQueryMirror object.
+
++ (id)queryForAccountsInsertWithObject:(GTLMirrorAccount *)object
+                             userToken:(NSString *)userToken
+                           accountType:(NSString *)accountType
+                           accountName:(NSString *)accountName {
+  if (object == nil) {
+    GTL_DEBUG_ASSERT(object != nil, @"%@ got a nil object", NSStringFromSelector(_cmd));
+    return nil;
+  }
+  NSString *methodName = @"mirror.accounts.insert";
+  GTLQueryMirror *query = [self queryWithMethodName:methodName];
+  query.bodyObject = object;
+  query.userToken = userToken;
+  query.accountType = accountType;
+  query.accountName = accountName;
+  query.expectedObjectClass = [GTLMirrorAccount class];
+  return query;
 }
 
 #pragma mark -
@@ -135,6 +160,18 @@
   NSString *methodName = @"mirror.locations.list";
   GTLQueryMirror *query = [self queryWithMethodName:methodName];
   query.expectedObjectClass = [GTLMirrorLocationsListResponse class];
+  return query;
+}
+
+#pragma mark -
+#pragma mark "settings" methods
+// These create a GTLQueryMirror object.
+
++ (id)queryForSettingsGetWithIdentifier:(NSString *)identifier {
+  NSString *methodName = @"mirror.settings.get";
+  GTLQueryMirror *query = [self queryWithMethodName:methodName];
+  query.identifier = identifier;
+  query.expectedObjectClass = [GTLMirrorSetting class];
   return query;
 }
 

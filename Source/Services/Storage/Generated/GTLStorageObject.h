@@ -20,13 +20,13 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Cloud Storage API (storage/v1beta2)
+//   Cloud Storage API (storage/v1)
 // Description:
 //   Lets you store and retrieve potentially-large, immutable data objects.
 // Documentation:
 //   https://developers.google.com/storage/docs/json_api/
 // Classes:
-//   GTLStorageObject (0 custom class methods, 23 custom properties)
+//   GTLStorageObject (0 custom class methods, 24 custom properties)
 //   GTLStorageObjectMetadata (0 custom class methods, 0 custom properties)
 //   GTLStorageObjectOwner (0 custom class methods, 2 custom properties)
 
@@ -52,14 +52,14 @@
 // Access controls on the object.
 @property (retain) NSArray *acl;  // of GTLStorageObjectAccessControl
 
-// The bucket containing this object.
+// The name of the bucket containing this object.
 @property (copy) NSString *bucket;
 
 // Cache-Control directive for the object data.
 @property (copy) NSString *cacheControl;
 
 // Number of underlying components that make up this object. Components are
-// accumulated by compose operations and are limited to a count of 32.
+// accumulated by compose operations.
 @property (retain) NSNumber *componentCount;  // intValue
 
 // Content-Disposition of the object data.
@@ -99,9 +99,10 @@
 // User-provided metadata, in key/value pairs.
 @property (retain) GTLStorageObjectMetadata *metadata;
 
-// The generation of the metadata for this object at this generation. Used for
-// metadata versioning. Has no meaning outside of the context of this
-// generation.
+// The version of the metadata for this object at this generation. Used for
+// preconditions and for detecting changes in metadata. A metageneration number
+// is only meaningful in the context of a particular generation of a particular
+// object.
 @property (retain) NSNumber *metageneration;  // longLongValue
 
 // The name of this object. Required if not specified by URL parameter.
@@ -116,11 +117,16 @@
 // Content-Length of the data in bytes.
 @property (retain) NSNumber *size;  // unsignedLongLongValue
 
-// Deletion time of the object in RFC 3339 format. Will be returned if and only
-// if this version of the object has been deleted.
+// Storage class of the object.
+@property (copy) NSString *storageClass;
+
+// The deletion time of the object in RFC 3339 format. Will be returned if and
+// only if this version of the object has been deleted.
 @property (retain) GTLDateTime *timeDeleted;
 
-// Modification time of the object metadata in RFC 3339 format.
+// The creation or modification time of the object in RFC 3339 format. For
+// buckets with versioning enabled, changing an object's metadata does not
+// change this property.
 @property (retain) GTLDateTime *updated;
 
 @end

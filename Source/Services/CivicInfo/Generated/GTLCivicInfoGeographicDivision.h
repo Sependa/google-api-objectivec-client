@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Google Civic Information API (civicinfo/us_v1)
+//   Google Civic Information API (civicinfo/v2)
 // Description:
 //   An API for accessing civic information.
 // Documentation:
@@ -43,18 +43,24 @@
 
 @interface GTLCivicInfoGeographicDivision : GTLObject
 
+// Any other valid OCD IDs that refer to the same division.
+// Because OCD IDs are meant to be human-readable and at least somewhat
+// predictable, there are occasionally several identifiers for a single
+// division. These identifiers are defined to be equivalent to one another, and
+// one is always indicated as the primary identifier. The primary identifier
+// will be returned in ocd_id above, and any other equivalent valid identifiers
+// will be returned in this list.
+// For example, if this division's OCD ID is
+// ocd-division/country:us/district:dc, this will contain
+// ocd-division/country:us/state:dc.
+@property (retain) NSArray *alsoKnownAs;  // of NSString
+
 // The name of the division.
 @property (copy) NSString *name;
 
-// List of keys in the offices object, one for each office elected from this
+// List of indices in the offices array, one for each office elected from this
 // division. Will only be present if includeOffices was true (or absent) in the
 // request.
-@property (retain) NSArray *officeIds;  // of NSString
-
-// The geographic scope of the division. If unspecified, the division's
-// geography is not known. One of: national, statewide, congressional,
-// stateUpper, stateLower, countywide, judicial, schoolBoard, cityWide,
-// township, countyCouncil, cityCouncil, ward, special
-@property (copy) NSString *scope;
+@property (retain) NSArray *officeIndices;  // of NSNumber (unsignedIntValue)
 
 @end

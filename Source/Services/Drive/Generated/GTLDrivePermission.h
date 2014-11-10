@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,20 +50,21 @@
 @property (copy) NSString *authKey;
 
 // The domain name of the entity this permission refers to. This is an
-// output-only field which is populated when the permission type is "user",
-// "group" or "domain".
+// output-only field which is present when the permission type is user, group or
+// domain.
 @property (copy) NSString *domain;
 
 // The email address of the user this permission refers to. This is an
-// output-only field which is populated when the permission type is "user" and
-// the given user's Google+ profile privacy settings allow exposing their email
-// address.
+// output-only field which is present when the permission type is user.
 @property (copy) NSString *emailAddress;
 
 // The ETag of the permission.
 @property (copy) NSString *ETag;
 
-// The ID of the permission.
+// The ID of the user this permission refers to, and identical to the
+// permissionId in the About and Files resources. When making a
+// drive.permissions.insert request, exactly one of the id or value fields must
+// be specified.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
 
@@ -93,7 +94,8 @@
 @property (copy) NSString *type;
 
 // The email address or domain name for the entity. This is used during inserts
-// and is not populated in responses.
+// and is not populated in responses. When making a drive.permissions.insert
+// request, exactly one of the id or value fields must be specified.
 @property (copy) NSString *value;
 
 // Whether the link is required for this permission.

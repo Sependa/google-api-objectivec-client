@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,11 +46,13 @@
 
 // The time, as a combined date-time value (formatted according to RFC 3339). A
 // time zone offset is required unless a time zone is explicitly specified in
-// 'timeZone'.
+// timeZone.
 @property (retain) GTLDateTime *dateTime;
 
 // The name of the time zone in which the time is specified (e.g.
-// "Europe/Zurich"). Optional. The default is the time zone of the calendar.
+// "Europe/Zurich"). For recurring events this field is required and specifies
+// the time zone in which the recurrence is expanded. For single events this
+// field is optional and indicates a custom time zone for the event start/end.
 @property (copy) NSString *timeZone;
 
 @end

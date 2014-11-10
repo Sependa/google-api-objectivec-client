@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@
 #import "GTLCalendarColors.h"
 #import "GTLCalendarError.h"
 #import "GTLCalendarEvent.h"
+#import "GTLCalendarEventAttachment.h"
 #import "GTLCalendarEventAttendee.h"
 #import "GTLCalendarEventDateTime.h"
 #import "GTLCalendarEventReminder.h"
@@ -46,6 +47,7 @@
 #import "GTLCalendarFreeBusyGroup.h"
 #import "GTLCalendarFreeBusyRequestItem.h"
 #import "GTLCalendarFreeBusyResponse.h"
+#import "GTLCalendarNotification.h"
 #import "GTLCalendarSetting.h"
 #import "GTLCalendarSettings.h"
 #import "GTLCalendarTimePeriod.h"

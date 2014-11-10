@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/analytics/
 // Classes:
-//   GTLAnalyticsSegment (0 custom class methods, 8 custom properties)
+//   GTLAnalyticsSegment (0 custom class methods, 9 custom properties)
 
 #import "GTLAnalyticsSegment.h"
 
@@ -36,7 +36,7 @@
 //
 
 @implementation GTLAnalyticsSegment
-@dynamic created, definition, identifier, kind, name, segmentId, selfLink,
+@dynamic created, definition, identifier, kind, name, segmentId, selfLink, type,
          updated;
 
 + (NSDictionary *)propertyToJSONKeyMap {

@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/cloud-sql/docs/admin-api/
 // Classes:
-//   GTLQuerySQLAdmin (21 custom class methods, 13 custom properties)
+//   GTLQuerySQLAdmin (24 custom class methods, 14 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLQuery.h"
@@ -34,6 +34,7 @@
   #import "GTLQuery.h"
 #endif
 
+@class GTLSQLAdminCloneContext;
 @class GTLSQLAdminDatabaseInstance;
 @class GTLSQLAdminExportContext;
 @class GTLSQLAdminImportContext;
@@ -52,6 +53,7 @@
 // Method-specific parameters; see the comments below for more information.
 //
 @property (copy) NSString *backupConfiguration;
+@property (retain) GTLSQLAdminCloneContext *cloneContext;
 @property (copy) NSString *commonName;
 @property (copy) NSString *dueTime;
 @property (retain) GTLSQLAdminExportContext *exportContext;
@@ -71,7 +73,7 @@
 // These create a GTLQuerySQLAdmin object.
 
 // Method: sql.backupRuns.get
-// Retrieves a resource containing information about a backup run.
+// Retrieves information about a specified backup run for a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -88,8 +90,7 @@
                                dueTime:(NSString *)dueTime;
 
 // Method: sql.backupRuns.list
-// Lists all backup runs associated with a given instance and configuration in
-// the reverse chronological order of the enqueued time.
+// Lists all backup runs associated with a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -108,8 +109,30 @@
                     backupConfiguration:(NSString *)backupConfiguration;
 
 #pragma mark -
+#pragma mark "flags" methods
+// These create a GTLQuerySQLAdmin object.
+
+// Method: sql.flags.list
+// Lists all database flags that can be set for Google Cloud SQL instances.
+//  Authorization scope(s):
+//   kGTLAuthScopeSQLAdminSqlserviceAdmin
+// Fetches a GTLSQLAdminFlagsListResponse.
++ (id)queryForFlagsList;
+
+#pragma mark -
 #pragma mark "instances" methods
 // These create a GTLQuerySQLAdmin object.
+
+// Method: sql.instances.clone
+// Creates a Cloud SQL instance as a clone of a source instance.
+//  Required:
+//   project: Project ID of the source as well as the clone Cloud SQL instance.
+//  Optional:
+//   cloneContext: Contains details about the clone operation.
+//  Authorization scope(s):
+//   kGTLAuthScopeSQLAdminSqlserviceAdmin
+// Fetches a GTLSQLAdminInstancesCloneResponse.
++ (id)queryForInstancesCloneWithProject:(NSString *)project;
 
 // Method: sql.instances.delete
 // Deletes a Cloud SQL instance.
@@ -139,7 +162,7 @@
                                 instance:(NSString *)instance;
 
 // Method: sql.instances.get
-// Retrieves a resource containing information about a Cloud SQL instance.
+// Retrieves information about a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Database instance ID. This does not include the project ID.
@@ -150,8 +173,8 @@
                              instance:(NSString *)instance;
 
 // Method: sql.instances.import
-// Imports data into a Cloud SQL instance from a MySQL dump file in Google Cloud
-// Storage.
+// Imports data into a Cloud SQL instance from a MySQL dump file stored in a
+// Google Cloud Storage bucket.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -175,8 +198,7 @@
                                 project:(NSString *)project;
 
 // Method: sql.instances.list
-// Lists instances under a given project in the alphabetical order of the
-// instance name.
+// Lists instances for a given project, in alphabetical order by instance name.
 //  Required:
 //   project: Project ID of the project for which to list Cloud SQL instances.
 //  Optional:
@@ -190,9 +212,7 @@
 + (id)queryForInstancesListWithProject:(NSString *)project;
 
 // Method: sql.instances.patch
-// Updates settings of a Cloud SQL instance. Caution: This is not a partial
-// update, so you must include values for all the settings that you want to
-// retain. For partial updates, use patch.. This method supports patch
+// Updates the settings of a Cloud SQL instance. This method supports patch
 // semantics.
 //  Required:
 //   project: Project ID of the project that contains the instance.
@@ -204,11 +224,20 @@
                                project:(NSString *)project
                               instance:(NSString *)instance;
 
+// Method: sql.instances.promoteReplica
+// Promotes the read replica instance to be a stand-alone Cloud SQL instance.
+//  Required:
+//   project: ID of the project that contains the read replica.
+//   instance: Cloud SQL read replica instance name.
+//  Authorization scope(s):
+//   kGTLAuthScopeSQLAdminSqlserviceAdmin
+// Fetches a GTLSQLAdminInstancesPromoteReplicaResponse.
++ (id)queryForInstancesPromoteReplicaWithProject:(NSString *)project
+                                        instance:(NSString *)instance;
+
 // Method: sql.instances.resetSslConfig
 // Deletes all client certificates and generates a new server SSL certificate
-// for the instance. The changes will not take effect until the instance is
-// restarted. Existing instances without a server certificate will need to call
-// this once to set a server certificate.
+// for a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -248,7 +277,7 @@
                                         dueTime:(NSString *)dueTime;
 
 // Method: sql.instances.setRootPassword
-// Sets the password for the root user.
+// Sets the password for the root user of the specified Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -261,9 +290,7 @@
                                          instance:(NSString *)instance;
 
 // Method: sql.instances.update
-// Updates settings of a Cloud SQL instance. Caution: This is not a partial
-// update, so you must include values for all the settings that you want to
-// retain. For partial updates, use patch.
+// Updates the settings of a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -279,7 +306,8 @@
 // These create a GTLQuerySQLAdmin object.
 
 // Method: sql.operations.get
-// Retrieves an instance operation that has been performed on an instance.
+// Retrieves information about a specific operation that was performed on a
+// Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -292,8 +320,7 @@
                              operation:(NSString *)operation;
 
 // Method: sql.operations.list
-// Lists all instance operations that have been performed on the given Cloud SQL
-// instance in the reverse chronological order of the start time.
+// Lists all operations that have been performed on a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -313,8 +340,7 @@
 // These create a GTLQuerySQLAdmin object.
 
 // Method: sql.sslCerts.delete
-// Deletes the SSL certificate. The change will not take effect until the
-// instance is restarted.
+// Deletes an SSL certificate from a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project that contains the instance to be
 //     deleted.
@@ -328,9 +354,7 @@
                         sha1Fingerprint:(NSString *)sha1Fingerprint;
 
 // Method: sql.sslCerts.get
-// Retrieves a particular SSL certificate. Does not include the private key
-// (required for usage). The private key must be saved from the response to
-// initial creation.
+// Retrieves an SSL certificate as specified by its SHA-1 fingerprint.
 //  Required:
 //   project: Project ID of the project that contains the instance.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -343,9 +367,8 @@
                      sha1Fingerprint:(NSString *)sha1Fingerprint;
 
 // Method: sql.sslCerts.insert
-// Creates an SSL certificate and returns it along with the private key and
-// server certificate authority. The new certificate will not be usable until
-// the instance is restarted.
+// Creates an SSL certificate and returns the certificate, the associated
+// private key, and the server certificate authority.
 //  Required:
 //   project: Project ID of the project to which the newly created Cloud SQL
 //     instances should belong.
@@ -361,7 +384,7 @@
                                instance:(NSString *)instance;
 
 // Method: sql.sslCerts.list
-// Lists all of the current SSL certificates for the instance.
+// Lists all of the current SSL certificates defined for a Cloud SQL instance.
 //  Required:
 //   project: Project ID of the project for which to list Cloud SQL instances.
 //   instance: Cloud SQL instance ID. This does not include the project ID.
@@ -376,8 +399,7 @@
 // These create a GTLQuerySQLAdmin object.
 
 // Method: sql.tiers.list
-// Lists all available service tiers for Google Cloud SQL, for example D1, D2.
-// For related information, see Pricing.
+// Lists service tiers that can be used to create Google Cloud SQL instances.
 //  Required:
 //   project: Project ID of the project for which to list tiers.
 //  Authorization scope(s):

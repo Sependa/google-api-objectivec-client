@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/cloud-sql/docs/admin-api/
 // Classes:
-//   GTLSQLAdminSettings (0 custom class methods, 10 custom properties)
+//   GTLSQLAdminSettings (0 custom class methods, 12 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLObject.h"
@@ -35,6 +35,7 @@
 #endif
 
 @class GTLSQLAdminBackupConfiguration;
+@class GTLSQLAdminDatabaseFlags;
 @class GTLSQLAdminIpConfiguration;
 @class GTLSQLAdminLocationPreference;
 
@@ -55,11 +56,18 @@
 // ON_DEMAND: The instance is activated upon receiving requests.
 @property (copy) NSString *activationPolicy;
 
-// The AppEngine app ids that can access this instance.
+// The App Engine app IDs that can access this instance.
 @property (retain) NSArray *authorizedGaeApplications;  // of NSString
 
 // The daily backup configuration for the instance.
 @property (retain) NSArray *backupConfiguration;  // of GTLSQLAdminBackupConfiguration
+
+// The database flags passed to the instance at startup.
+@property (retain) NSArray *databaseFlags;  // of GTLSQLAdminDatabaseFlags
+
+// Configuration specific to read replica instance. Indicates whether
+// replication is enabled or not.
+@property (retain) NSNumber *databaseReplicationEnabled;  // boolValue
 
 // The settings for IP Management. This allows to enable or disable the instance
 // IP and manage which external networks can connect to the instance.
@@ -69,8 +77,8 @@
 @property (copy) NSString *kind;
 
 // The location preference settings. This allows the instance to be located as
-// near as possible to either an AppEngine app or GCE zone for better
-// perfomance.
+// near as possible to either an App Engine app or GCE zone for better
+// performance.
 @property (retain) GTLSQLAdminLocationPreference *locationPreference;
 
 // The pricing plan for this instance. This can be either PER_USE or PACKAGE.

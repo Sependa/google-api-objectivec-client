@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,9 +148,9 @@
 // The height of the media object.
 @property (copy) NSString *height;
 
-// An identifier for the target. Your app can choose how to identify targets.
-// The target.id is required if you are writing an activity that does not have a
-// corresponding web page or target.url property.
+// An identifier for the object. Your app can choose how to identify objects.
+// The object.id is required if you are writing an action that does not have a
+// corresponding web page or object.url property.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
 
@@ -221,11 +221,11 @@
 // The exchange traded instrument associated with a Corporation object. The
 // tickerSymbol is expressed as an exchange and an instrument name separated by
 // a space character. For the exchange component of the tickerSymbol attribute,
-// we reccommend using the controlled vocaulary of Market Identifier Codes (MIC)
+// we recommend using the controlled vocabulary of Market Identifier Codes (MIC)
 // specified in ISO15022.
 @property (copy) NSString *tickerSymbol;
 
-// The schema.org URL that best describes the referenced target and matches the
+// The schema.org URL that best describes the referenced object and matches the
 // type of moment.
 @property (copy) NSString *type;
 

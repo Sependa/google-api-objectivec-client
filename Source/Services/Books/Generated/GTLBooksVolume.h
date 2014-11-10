@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@
 //   https://developers.google.com/books/docs/v1/getting_started
 // Classes:
 //   GTLBooksVolume (0 custom class methods, 11 custom properties)
-//   GTLBooksVolumeAccessInfo (0 custom class methods, 13 custom properties)
+//   GTLBooksVolumeAccessInfo (0 custom class methods, 14 custom properties)
 //   GTLBooksVolumeLayerInfo (0 custom class methods, 1 custom properties)
 //   GTLBooksVolumeRecommendedInfo (0 custom class methods, 1 custom properties)
 //   GTLBooksVolumeSaleInfo (0 custom class methods, 8 custom properties)
 //   GTLBooksVolumeSearchInfo (0 custom class methods, 1 custom properties)
 //   GTLBooksVolumeUserInfo (0 custom class methods, 11 custom properties)
-//   GTLBooksVolumeVolumeInfo (0 custom class methods, 21 custom properties)
+//   GTLBooksVolumeVolumeInfo (0 custom class methods, 22 custom properties)
 //   GTLBooksVolumeAccessInfoEpub (0 custom class methods, 3 custom properties)
 //   GTLBooksVolumeAccessInfoPdf (0 custom class methods, 3 custom properties)
 //   GTLBooksVolumeLayerInfoLayersItem (0 custom class methods, 2 custom properties)
@@ -150,6 +150,10 @@
 
 // Information about a volume's download license access restrictions.
 @property (retain) GTLBooksDownloadAccessRestriction *downloadAccess;
+
+// URL to the Google Drive viewer if this volume is uploaded by the user by
+// selecting the file from Google Drive.
+@property (copy) NSString *driveImportedContentLink;
 
 // Whether this volume can be embedded in a viewport using the Embedded Viewer
 // API.
@@ -390,6 +394,9 @@
 
 // The number of review ratings for this volume.
 @property (retain) NSNumber *ratingsCount;  // intValue
+
+// The reading modes available for this volume.
+@property (retain) id readingModes;
 
 // Volume subtitle. (In LITE projection.)
 @property (copy) NSString *subtitle;

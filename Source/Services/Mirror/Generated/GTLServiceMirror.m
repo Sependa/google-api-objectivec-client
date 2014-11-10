@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +38,10 @@
 + (NSArray *)checkClasses {
   NSArray *classes = [NSArray arrayWithObjects:
                       [GTLQueryMirror class],
+                      [GTLMirrorAccount class],
                       [GTLMirrorAttachment class],
                       [GTLMirrorAttachmentsListResponse class],
+                      [GTLMirrorAuthToken class],
                       [GTLMirrorCommand class],
                       [GTLMirrorContact class],
                       [GTLMirrorContactsListResponse class],
@@ -49,11 +51,13 @@
                       [GTLMirrorMenuValue class],
                       [GTLMirrorNotification class],
                       [GTLMirrorNotificationConfig class],
+                      [GTLMirrorSetting class],
                       [GTLMirrorSubscription class],
                       [GTLMirrorSubscriptionsListResponse class],
                       [GTLMirrorTimelineItem class],
                       [GTLMirrorTimelineListResponse class],
                       [GTLMirrorUserAction class],
+                      [GTLMirrorUserData class],
                       nil];
   return classes;
 }

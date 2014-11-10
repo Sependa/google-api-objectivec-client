@@ -1,4 +1,4 @@
-/* Copyright (c) 2012 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,16 +41,15 @@
 //   GTLAnalyticsSegments
 //
 
-// An advanced segment collection lists Analytics advanced segments that the
-// user has access to. Each resource in the collection corresponds to a single
-// Analytics advanced segment.
+// An segment collection lists Analytics segments that the user has access to.
+// Each resource in the collection corresponds to a single Analytics segment.
 
 // This class supports NSFastEnumeration over its "items" property. It also
 // supports -itemAtIndex: to retrieve individual objects from "items".
 
 @interface GTLAnalyticsSegments : GTLCollectionObject
 
-// A list of advanced segments.
+// A list of segments.
 @property (retain) NSArray *items;  // of GTLAnalyticsSegment
 
 // The maximum number of resources the response can contain, regardless of the
@@ -59,13 +58,13 @@
 // parameter.
 @property (retain) NSNumber *itemsPerPage;  // intValue
 
-// Collection type for advanced segments.
+// Collection type for segments.
 @property (copy) NSString *kind;
 
-// Link to next page for this advanced segment collection.
+// Link to next page for this segment collection.
 @property (copy) NSString *nextLink;
 
-// Link to previous page for this advanced segment collection.
+// Link to previous page for this segment collection.
 @property (copy) NSString *previousLink;
 
 // The starting index of the resources, which is 1 by default or otherwise

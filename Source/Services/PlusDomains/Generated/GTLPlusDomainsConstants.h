@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,9 @@
 // Authorization scope
 // View your circles and the people and pages in them
 GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsPlusCirclesRead;  // "https://www.googleapis.com/auth/plus.circles.read"
-// Manage your circles and add people and pages, who will be notified and may
-// appear on your public Google+ profile
+// Manage your circles and add people and pages. People and pages you add to
+// your circles will be notified. Others may see this information publicly.
+// People you add to circles can use Hangouts with you.
 GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsPlusCirclesWrite;  // "https://www.googleapis.com/auth/plus.circles.write"
 // Know your basic profile info and list of people in your circles.
 GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsPlusLogin;  // "https://www.googleapis.com/auth/plus.login"
@@ -54,10 +55,10 @@ GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsPlusStreamRead;  // "https:/
 GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsPlusStreamWrite;  // "https://www.googleapis.com/auth/plus.stream.write"
 // View your email address
 GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsUserinfoEmail;  // "https://www.googleapis.com/auth/userinfo.email"
-// View basic information about your account
+// View your basic profile info
 GTL_EXTERN NSString * const kGTLAuthScopePlusDomainsUserinfoProfile;  // "https://www.googleapis.com/auth/userinfo.profile"
 
-// Collection
+// GTLQueryPlusDomains - Collection
 GTL_EXTERN NSString * const kGTLPlusDomainsCollectionCircled;   // "circled"
 GTL_EXTERN NSString * const kGTLPlusDomainsCollectionCloud;     // "cloud"
 GTL_EXTERN NSString * const kGTLPlusDomainsCollectionPlusoners;  // "plusoners"
@@ -65,10 +66,10 @@ GTL_EXTERN NSString * const kGTLPlusDomainsCollectionResharers;  // "resharers"
 GTL_EXTERN NSString * const kGTLPlusDomainsCollectionSharedto;  // "sharedto"
 GTL_EXTERN NSString * const kGTLPlusDomainsCollectionUser;      // "user"
 
-// OrderBy
+// GTLQueryPlusDomains - OrderBy
 GTL_EXTERN NSString * const kGTLPlusDomainsOrderByAlphabetical;  // "alphabetical"
 GTL_EXTERN NSString * const kGTLPlusDomainsOrderByBest;         // "best"
 
-// SortOrder
+// GTLQueryPlusDomains - SortOrder
 GTL_EXTERN NSString * const kGTLPlusDomainsSortOrderAscending;  // "ascending"
 GTL_EXTERN NSString * const kGTLPlusDomainsSortOrderDescending;  // "descending"

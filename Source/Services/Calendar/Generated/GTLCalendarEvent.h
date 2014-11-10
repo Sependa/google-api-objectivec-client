@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,12 +72,12 @@
 
 // Whether attendees may have been omitted from the event's representation. When
 // retrieving an event, this may be due to a restriction specified by the
-// 'maxAttendee' query parameter. When updating an event, this can be used to
-// only update the participant's response. Optional. The default is False.
+// maxAttendee query parameter. When updating an event, this can be used to only
+// update the participant's response. Optional. The default is False.
 @property (retain) NSNumber *attendeesOmitted;  // boolValue
 
-// The color of the event. This is an ID referring to an entry in the "event"
-// section of the colors definition (see the "colors" endpoint). Optional.
+// The color of the event. This is an ID referring to an entry in the event
+// section of the colors definition (see the colors endpoint). Optional.
 @property (copy) NSString *colorId;
 
 // Creation time of the event (as a RFC 3339 timestamp). Read-only.
@@ -130,7 +130,15 @@
 // Event ID in the iCalendar format.
 @property (copy) NSString *iCalUID;
 
-// Identifier of the event.
+// Identifier of the event. When creating new single or recurring events, you
+// can specify their IDs. Provided IDs must follow these rules:
+// - characters allowed in the ID are those used in base32hex encoding, i.e.
+// lowercase letters a-v and digits 0-9, see section 3.1.2 in RFC2938
+// - the length of the ID must be between 5 and 1024 characters
+// - the ID must be unique per calendar Due to the globally distributed nature
+// of the system, we cannot guarantee that ID collisions will be detected at
+// event creation time. To minimize the risk of collisions we recommend using an
+// established UUID algorithm such as one described in RFC4122.
 // identifier property maps to 'id' in JSON (to avoid Objective C's 'id').
 @property (copy) NSString *identifier;
 
@@ -146,9 +154,9 @@
 @property (retain) NSNumber *locked;  // boolValue
 
 // The organizer of the event. If the organizer is also an attendee, this is
-// indicated with a separate entry in 'attendees' with the 'organizer' field set
-// to True. To change the organizer, use the "move" operation. Read-only, except
-// when importing an event.
+// indicated with a separate entry in attendees with the organizer field set to
+// True. To change the organizer, use the move operation. Read-only, except when
+// importing an event.
 @property (retain) GTLCalendarEventOrganizer *organizer;
 
 // For an instance of a recurring event, this is the time at which this event

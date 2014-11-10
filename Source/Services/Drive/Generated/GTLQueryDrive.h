@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLQueryDrive (58 custom class methods, 37 custom properties)
+//   GTLQueryDrive (59 custom class methods, 45 custom properties)
 
 #if GTL_BUILT_AS_FRAMEWORK
   #import "GTL/GTLQuery.h"
@@ -56,18 +56,24 @@
 //
 // Method-specific parameters; see the comments below for more information.
 //
+@property (assign) BOOL acknowledgeAbuse;
+@property (copy) NSString *addParents;
+@property (copy) NSString *appFilterExtensions;
+@property (copy) NSString *appFilterMimeTypes;
 @property (copy) NSString *appId;
 @property (copy) NSString *baseRevision;
 @property (copy) NSString *changeId;
 @property (copy) NSString *childId;
 @property (copy) NSString *commentId;
 @property (assign) BOOL convert;
+@property (copy) NSString *corpus;
 @property (copy) NSString *email;
 @property (copy) NSString *emailMessage;
 @property (copy) NSString *fileId;
 @property (copy) NSString *folderId;
 @property (assign) BOOL includeDeleted;
 @property (assign) BOOL includeSubscribed;
+@property (copy) NSString *languageCode;
 @property (assign) long long maxChangeIdCount;
 @property (assign) NSInteger maxResults;
 @property (assign) BOOL newRevision;
@@ -80,7 +86,9 @@
 @property (copy) NSString *projection;
 @property (copy) NSString *propertyKey;
 @property (copy) NSString *q;
+@property (copy) NSString *removeParents;
 @property (copy) NSString *replyId;
+@property (assign) NSInteger revision;
 @property (copy) NSString *revisionId;
 @property (assign) BOOL sendNotificationEmails;
 @property (assign) BOOL setModifiedDate;
@@ -101,10 +109,10 @@
 // Gets the information about the current user along with Drive API settings
 //  Optional:
 //   includeSubscribed: When calculating the number of remaining change IDs,
-//     whether to include shared files and public files the user has opened.
+//     whether to include public files the user has opened and shared files.
 //     When set to false, this counts only change IDs for owned files and any
-//     shared or public files that the user has explictly added to a folder in
-//     Drive. (Default true)
+//     shared or public files that the user has explicitly added to a folder
+//     they own. (Default true)
 //   maxChangeIdCount: Maximum number of remaining change IDs to count (Default
 //     1)
 //   startChangeId: Change ID to start counting from when calculating number of
@@ -138,6 +146,20 @@
 
 // Method: drive.apps.list
 // Lists a user's installed apps.
+//  Optional:
+//   appFilterExtensions: A comma-separated list of file extensions for open
+//     with filtering. All apps within the given app query scope which can open
+//     any of the given file extensions will be included in the response. If
+//     appFilterMimeTypes are provided as well, the result is a union of the two
+//     resulting app lists.
+//   appFilterMimeTypes: A comma-separated list of MIME types for open with
+//     filtering. All apps within the given app query scope which can open any
+//     of the given MIME types will be included in the response. If
+//     appFilterExtensions are provided as well, the result is a union of the
+//     two resulting app lists.
+//   languageCode: A language or locale code, as defined by BCP 47, with some
+//     extensions from Unicode's LDML format
+//     (http://www.unicode.org/reports/tr35/).
 //  Authorization scope(s):
 //   kGTLAuthScopeDriveAppsReadonly
 // Fetches a GTLDriveAppList.
@@ -165,10 +187,10 @@
 // Lists the changes for a user.
 //  Optional:
 //   includeDeleted: Whether to include deleted items. (Default true)
-//   includeSubscribed: Whether to include shared files and public files the
-//     user has opened. When set to false, the list will include owned files
-//     plus any shared or public files the user has explictly added to a folder
-//     in Drive. (Default true)
+//   includeSubscribed: Whether to include public files the user has opened and
+//     shared files. When set to false, the list only includes owned files plus
+//     any shared or public files the user has explicitly added to a folder they
+//     own. (Default true)
 //   maxResults: Maximum number of changes to return. (Default 100)
 //   pageToken: Page token for changes.
 //   startChangeId: Change ID to start listing changes from.
@@ -186,10 +208,10 @@
 // Subscribe to changes for a user.
 //  Optional:
 //   includeDeleted: Whether to include deleted items. (Default true)
-//   includeSubscribed: Whether to include shared files and public files the
-//     user has opened. When set to false, the list will include owned files
-//     plus any shared or public files the user has explictly added to a folder
-//     in Drive. (Default true)
+//   includeSubscribed: Whether to include public files the user has opened and
+//     shared files. When set to false, the list only includes owned files plus
+//     any shared or public files the user has explicitly added to a folder they
+//     own. (Default true)
 //   maxResults: Maximum number of changes to return. (Default 100)
 //   pageToken: Page token for changes.
 //   startChangeId: Change ID to start listing changes from.
@@ -384,7 +406,8 @@
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
 //     ISO 639-1 codes.
-//   pinned: Whether to pin the head revision of the new copy. (Default false)
+//   pinned: Whether to pin the head revision of the new copy. A file can have a
+//     maximum of 200 pinned revisions. (Default false)
 //   timedTextLanguage: The language of the timed text.
 //   timedTextTrackName: The timed text track name.
 //   visibility: The visibility of the new file. This parameter is only relevant
@@ -413,11 +436,19 @@
 //   kGTLAuthScopeDriveFile
 + (id)queryForFilesDeleteWithFileId:(NSString *)fileId;
 
+// Method: drive.files.emptyTrash
+// Permanently deletes all of the user's trashed files.
+//  Authorization scope(s):
+//   kGTLAuthScopeDrive
++ (id)queryForFilesEmptyTrash;
+
 // Method: drive.files.get
 // Gets a file's metadata by ID.
 //  Required:
 //   fileId: The ID for the file in question.
 //  Optional:
+//   acknowledgeAbuse: Whether the user is acknowledging the risk of downloading
+//     known malware or other abusive files. (Default false)
 //   projection: This parameter is deprecated and has no function.
 //      kGTLDriveProjectionBasic: Deprecated
 //      kGTLDriveProjectionFull: Deprecated
@@ -442,8 +473,8 @@
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
 //     ISO 639-1 codes.
-//   pinned: Whether to pin the head revision of the uploaded file. (Default
-//     false)
+//   pinned: Whether to pin the head revision of the uploaded file. A file can
+//     have a maximum of 200 pinned revisions. (Default false)
 //   timedTextLanguage: The language of the timed text.
 //   timedTextTrackName: The timed text track name.
 //   useContentAsIndexableText: Whether to use the content as indexable text.
@@ -455,7 +486,7 @@
 //      kGTLDriveVisibilityPrivate: The new file will be visible to only the
 //        owner.
 //  Upload Parameters:
-//   Maximum size: 10GB
+//   Maximum size: 5120GB
 //   Accepted MIME type(s): */*
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
@@ -469,6 +500,9 @@
 // Method: drive.files.list
 // Lists the user's files.
 //  Optional:
+//   corpus: The body of items (files/documents) to which the query applies.
+//      kGTLDriveCorpusDefault: The items that the user has accessed.
+//      kGTLDriveCorpusDomain: Items shared to the user's domain.
 //   maxResults: Maximum number of files to return. (Default 100)
 //   pageToken: Page token for files.
 //   projection: This parameter is deprecated and has no function.
@@ -490,18 +524,21 @@
 //  Required:
 //   fileId: The ID of the file to update.
 //  Optional:
+//   addParents: Comma-separated list of parent IDs to add.
 //   convert: Whether to convert this file to the corresponding Google Docs
 //     format. (Default false)
 //   newRevision: Whether a blob upload should create a new revision. If false,
-//     the blob data in the current head revision is replaced. If not set or
-//     true, a new blob is created as head revision, and previous revisions are
+//     the blob data in the current head revision is replaced. If true or not
+//     set, a new blob is created as head revision, and previous revisions are
 //     preserved (causing increased use of the user's data storage quota).
 //     (Default true)
 //   ocr: Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. (Default
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
 //     ISO 639-1 codes.
-//   pinned: Whether to pin the new revision. (Default false)
+//   pinned: Whether to pin the new revision. A file can have a maximum of 200
+//     pinned revisions. (Default false)
+//   removeParents: Comma-separated list of parent IDs to remove.
 //   setModifiedDate: Whether to set the modified date with the supplied
 //     modified date. (Default false)
 //   timedTextLanguage: The language of the timed text.
@@ -559,18 +596,21 @@
 //  Required:
 //   fileId: The ID of the file to update.
 //  Optional:
+//   addParents: Comma-separated list of parent IDs to add.
 //   convert: Whether to convert this file to the corresponding Google Docs
 //     format. (Default false)
 //   newRevision: Whether a blob upload should create a new revision. If false,
-//     the blob data in the current head revision is replaced. If not set or
-//     true, a new blob is created as head revision, and previous revisions are
+//     the blob data in the current head revision is replaced. If true or not
+//     set, a new blob is created as head revision, and previous revisions are
 //     preserved (causing increased use of the user's data storage quota).
 //     (Default true)
 //   ocr: Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. (Default
 //     false)
 //   ocrLanguage: If ocr is true, hints at the language to use. Valid values are
 //     ISO 639-1 codes.
-//   pinned: Whether to pin the new revision. (Default false)
+//   pinned: Whether to pin the new revision. A file can have a maximum of 200
+//     pinned revisions. (Default false)
+//   removeParents: Comma-separated list of parent IDs to remove.
 //   setModifiedDate: Whether to set the modified date with the supplied
 //     modified date. (Default false)
 //   timedTextLanguage: The language of the timed text.
@@ -580,7 +620,7 @@
 //   useContentAsIndexableText: Whether to use the content as indexable text.
 //     (Default false)
 //  Upload Parameters:
-//   Maximum size: 10GB
+//   Maximum size: 5120GB
 //   Accepted MIME type(s): */*
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
@@ -598,6 +638,8 @@
 //  Required:
 //   fileId: The ID for the file in question.
 //  Optional:
+//   acknowledgeAbuse: Whether the user is acknowledging the risk of downloading
+//     known malware or other abusive files. (Default false)
 //   projection: This parameter is deprecated and has no function.
 //      kGTLDriveProjectionBasic: Deprecated
 //      kGTLDriveProjectionFull: Deprecated
@@ -719,7 +761,8 @@
 //  Optional:
 //   emailMessage: A custom message to include in notification emails.
 //   sendNotificationEmails: Whether to send notification emails when sharing to
-//     users or groups. (Default true)
+//     users or groups. This parameter is ignored and an email is sent if the
+//     role is owner. (Default true)
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile
@@ -873,6 +916,11 @@
 //  Required:
 //   fileId: The ID of the file that the Realtime API data model is associated
 //     with.
+//  Optional:
+//   revision: The revision of the Realtime API data model to export. Revisions
+//     start at 1 (the initial empty data model) and are incremented with each
+//     change. If this parameter is excluded, the most recent data model will be
+//     returned.
 //  Authorization scope(s):
 //   kGTLAuthScopeDrive
 //   kGTLAuthScopeDriveFile

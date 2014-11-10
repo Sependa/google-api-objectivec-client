@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,13 +26,14 @@
 // Documentation:
 //   https://developers.google.com/drive/
 // Classes:
-//   GTLDriveFile (0 custom class methods, 45 custom properties)
+//   GTLDriveFile (0 custom class methods, 50 custom properties)
 //   GTLDriveFileExportLinks (0 custom class methods, 0 custom properties)
 //   GTLDriveFileImageMediaMetadata (0 custom class methods, 21 custom properties)
 //   GTLDriveFileIndexableText (0 custom class methods, 1 custom properties)
 //   GTLDriveFileLabels (0 custom class methods, 5 custom properties)
 //   GTLDriveFileOpenWithLinks (0 custom class methods, 0 custom properties)
 //   GTLDriveFileThumbnail (0 custom class methods, 2 custom properties)
+//   GTLDriveFileVideoMediaMetadata (0 custom class methods, 3 custom properties)
 //   GTLDriveFileImageMediaMetadataLocation (0 custom class methods, 3 custom properties)
 
 #import "GTLDriveFile.h"
@@ -53,10 +54,11 @@
          embedLink, ETag, explicitlyTrashed, exportLinks, fileExtension,
          fileSize, headRevisionId, iconLink, identifier, imageMediaMetadata,
          indexableText, kind, labels, lastModifyingUser, lastModifyingUserName,
-         lastViewedByMeDate, md5Checksum, mimeType, modifiedByMeDate,
-         modifiedDate, openWithLinks, originalFilename, ownerNames, owners,
-         parents, properties, quotaBytesUsed, selfLink, shared,
-         sharedWithMeDate, thumbnail, thumbnailLink, title, userPermission,
+         lastViewedByMeDate, markedViewedByMeDate, md5Checksum, mimeType,
+         modifiedByMeDate, modifiedDate, openWithLinks, originalFilename,
+         ownerNames, owners, parents, permissions, properties, quotaBytesUsed,
+         selfLink, shared, sharedWithMeDate, sharingUser, thumbnail,
+         thumbnailLink, title, userPermission, version, videoMediaMetadata,
          webContentLink, webViewLink, writersCanShare;
 
 + (NSDictionary *)propertyToJSONKeyMap {
@@ -75,6 +77,7 @@
       [NSString class], @"ownerNames",
       [GTLDriveUser class], @"owners",
       [GTLDriveParentReference class], @"parents",
+      [GTLDrivePermission class], @"permissions",
       [GTLDriveProperty class], @"properties",
       nil];
   return map;
@@ -155,6 +158,16 @@
 
 @implementation GTLDriveFileThumbnail
 @dynamic image, mimeType;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLDriveFileVideoMediaMetadata
+//
+
+@implementation GTLDriveFileVideoMediaMetadata
+@dynamic durationMillis, height, width;
 @end
 
 

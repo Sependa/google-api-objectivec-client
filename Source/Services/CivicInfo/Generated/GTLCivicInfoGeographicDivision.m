@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 // ----------------------------------------------------------------------------
 // NOTE: This file is generated from Google APIs Discovery Service.
 // Service:
-//   Google Civic Information API (civicinfo/us_v1)
+//   Google Civic Information API (civicinfo/v2)
 // Description:
 //   An API for accessing civic information.
 // Documentation:
@@ -36,12 +36,14 @@
 //
 
 @implementation GTLCivicInfoGeographicDivision
-@dynamic name, officeIds, scope;
+@dynamic alsoKnownAs, name, officeIndices;
 
 + (NSDictionary *)arrayPropertyToClassMap {
   NSDictionary *map =
-    [NSDictionary dictionaryWithObject:[NSString class]
-                                forKey:@"officeIds"];
+    [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSString class], @"alsoKnownAs",
+      [NSNumber class], @"officeIndices",
+      nil];
   return map;
 }
 

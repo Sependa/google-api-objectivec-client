@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@
 #import "GTLCalendarColors.m"
 #import "GTLCalendarError.m"
 #import "GTLCalendarEvent.m"
+#import "GTLCalendarEventAttachment.m"
 #import "GTLCalendarEventAttendee.m"
 #import "GTLCalendarEventDateTime.m"
 #import "GTLCalendarEventReminder.m"
@@ -49,6 +50,7 @@
 #import "GTLCalendarFreeBusyGroup.m"
 #import "GTLCalendarFreeBusyRequestItem.m"
 #import "GTLCalendarFreeBusyResponse.m"
+#import "GTLCalendarNotification.m"
 #import "GTLCalendarSetting.m"
 #import "GTLCalendarSettings.m"
 #import "GTLCalendarTimePeriod.m"

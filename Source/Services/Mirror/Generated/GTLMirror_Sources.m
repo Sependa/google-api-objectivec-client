@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,10 @@
 
 #import "GTLMirrorConstants.m"
 
+#import "GTLMirrorAccount.m"
 #import "GTLMirrorAttachment.m"
 #import "GTLMirrorAttachmentsListResponse.m"
+#import "GTLMirrorAuthToken.m"
 #import "GTLMirrorCommand.m"
 #import "GTLMirrorContact.m"
 #import "GTLMirrorContactsListResponse.m"
@@ -42,11 +44,13 @@
 #import "GTLMirrorMenuValue.m"
 #import "GTLMirrorNotification.m"
 #import "GTLMirrorNotificationConfig.m"
+#import "GTLMirrorSetting.m"
 #import "GTLMirrorSubscription.m"
 #import "GTLMirrorSubscriptionsListResponse.m"
 #import "GTLMirrorTimelineItem.m"
 #import "GTLMirrorTimelineListResponse.m"
 #import "GTLMirrorUserAction.m"
+#import "GTLMirrorUserData.m"
 
 #import "GTLQueryMirror.m"
 #import "GTLServiceMirror.m"

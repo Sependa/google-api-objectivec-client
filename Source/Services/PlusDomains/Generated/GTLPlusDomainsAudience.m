@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Google Inc.
+/* Copyright (c) 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 // Documentation:
 //   https://developers.google.com/+/domains/
 // Classes:
-//   GTLPlusDomainsAudience (0 custom class methods, 4 custom properties)
+//   GTLPlusDomainsAudience (0 custom class methods, 5 custom properties)
 
 #import "GTLPlusDomainsAudience.h"
 
@@ -38,7 +38,7 @@
 //
 
 @implementation GTLPlusDomainsAudience
-@dynamic ETag, item, kind, visibility;
+@dynamic ETag, item, kind, memberCount, visibility;
 
 + (NSDictionary *)propertyToJSONKeyMap {
   NSDictionary *map =
